@@ -1,0 +1,158 @@
+/* strumenti titolo index */
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+
+/* menu index */
+@import url('https://fonts.googleapis.com/css2?family=Scope+One&family=Work+Sans:wght@200&display=swap');
+
+
+.pag2{
+    height: 1700px;
+}
+
+
+.nav-item{
+    font-family: 'Work Sans', sans-serif;
+    font-size:  22px;
+}
+
+.menu a{
+    font-size: 25px;
+}
+
+.menu {
+    text-align: center;
+    background-color: rgba(229, 226, 226, 0.796) ;
+    margin: auto !important;
+}
+
+table,td {
+    margin: auto;
+    border: 2px collapse rgba(229, 226, 226, 0.796) ;
+}
+
+.strumenti {
+    font-size:  40px;
+    font-family: 'Work Sans', sans-serif;
+}
+
+
+h6{
+    font-size: 22px;
+}
+
+h3{
+    font-size: 32px;
+}
+
+/*card */ 
+.card-ts p{
+    font-size: small ;
+    float: left;
+}
+
+.card-ts:hover{
+  border: 0.9px solid rgb(0, 0, 0);
+}
+
+/* HOVER */
+
+td:hover { 
+    background-color: rgba(166, 166, 166, 0.751);
+    transform: scale(1.02);
+    transition: transform .1s; 
+}
+
+/* stelline */ 
+.checked {
+    color: rgb(217, 226, 50);
+  }
+
+/* card chitarre */
+
+.card-text{
+    font-size: 25px;
+}
+
+.card:hover{
+    transform: scale(1.02);
+    transition: transform .2s; 
+}
+
+
+/* footer */
+
+footer{
+    
+	border-top: 1px solid #ffffff; /* colore primario */
+	text-align: left;
+	padding:30px 10px;
+	line-height: 1.6em;
+	font-size: 15px;
+	background-color: #000000; /* colore primario */
+	color: rgba(166, 166, 166, 0.751);
+}
+
+
+ul{
+    list-style: none;
+}
+
+footer .social-cont .social-list {
+	list-style-type: none;
+	margin: 0 auto;
+	padding: 10px 0;
+}
+
+footer .social-cont .social-list > li {
+	margin: 8px 8px 8px 0;
+	display: inline-block;
+	vertical-align: top;
+	height: 32px;
+	width: 32px;
+	border-radius: 6em;
+	background-color:#000000; /* colore secondario */
+}
+
+footer .social-cont .social-list li img {
+	width: 32px
+}
+
+footer .social-cont .social-list > li:hover {
+background:#bab8b8; 	
+}
+
+/* marchi */
+.img-thumbnail{
+    border: solid rgba(0, 0, 0, 0.362) 1px !important;
+}
+
+/*carrello*/
+
+.carrello img{
+    margin: auto;
+}
+
+/*form */
+
+form{
+    display: block;
+    margin-top: 0em;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 1rem;
+}
+
+/* top 3*/ 
+#primo{
+    background-color: gold ;
+}
+
+#secondo{
+    background-color: silver ;
+}
+
+#terzo{
+    background-color: chocolate ;
+}
