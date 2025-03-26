@@ -6,7 +6,7 @@
 
 
 .pag2{
-    height: 1700px;
+    background-color: rgba(35, 2, 45, 0.751);
 }
 
 
@@ -22,7 +22,7 @@
 .menu {
     text-align: center;
     background-color: rgba(229, 226, 226, 0.796) ;
-    margin: auto !important;
+    margin: auto;
 }
 
 table,td {
@@ -50,14 +50,17 @@ h3{
     float: left;
 }
 
-.card-ts:hover{
-  border: 0.9px solid rgb(0, 0, 0);
+.card-body {
+    background-color: rgba(46, 5, 59, 0.751);
+        /* --bs-card-border-width: var(--bs-border-width); */
 }
+
+
 
 /* HOVER */
 
 td:hover { 
-    background-color: rgba(166, 166, 166, 0.751);
+    background-color: rgba(46, 5, 59, 0.751);
     transform: scale(1.02);
     transition: transform .1s; 
 }
