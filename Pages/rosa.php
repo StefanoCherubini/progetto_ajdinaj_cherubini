@@ -14,7 +14,11 @@
     <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 </head>
 <body class="pag2">
-    
+    <?php  include("../db.php");
+
+  $sql = "SELECT nome, cognome, link_imm FROM giocatori";
+  $result = $connessione->query($sql);
+    ?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
@@ -64,45 +68,29 @@
   <br> 
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <div class="card card-ts h-100" style="width: 18rem;">
-        <div class="position-relative ">
-        </div>
-        <img src="https://www.acffiorentina.com/getmedia/968af912-de3c-4160-bb98-c99bfa72eef7/MARTINELLI1.webp" class="card-img-top">
-        <p class="card-text"> </p>
-        <div class="card-body">
-          <br>
-          <h5 class="card-title text-center text-white"> TOMMASO MARTINELLI </h5>
-        </div>
-      </div>
-    </div>
+        <?php
+        if ($result->num_rows > 0) {
+            // Stampiamo ogni giocatore nel formato HTML richiesto
+            while($row = $result->fetch_assoc()) {
+                echo '<div class="col">
+                        <div class="card card-ts h-100" style="width: 18rem;">
+                            <div class="position-relative"></div>
+                            <img src="' . $row["link_imm"] . '" class="card-img-top"> 
+                            <div class="card-body">
+                                <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                            </div>
+                        </div>
+                    </div>';
+            }
+        } else {
+            echo "<p class='text-center'>Nessun giocatore trovato.</p>";
+        }
 
-    <div class="col">
-      <div class="card card-ts h-100" style="width: 18rem;">
-        <div class="position-relative" >
-        </div>
-        <img src="Images/tastiere/tastiera 3.jpg" class="card-img-top" alt="...">
-        <p class="card-text text-white bg-danger text-center">  </p>
-        <div class="card-body">
-          <br>
-          <h5 class="card-title"> T</h5>
-        </div>
+        // Chiudiamo la connessione
+        $connessione->close();
+        ?>
       </div>
     </div>
-
-    <div class="col">
-      <div class="card card-ts  h-100" style="width: 18rem;">
-        <div class="position-relative" >
-        </div>
-        <img src="Images/batterie/batteria 5.jpg" class="card-img-top" alt="...">
-        <p class="card-text text-white bg-danger text-center"> </p>
-        <div class="card-body">
-          <br>
-          <h5 class="card-title"> P</h5>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <br>
