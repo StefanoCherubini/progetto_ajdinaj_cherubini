@@ -62,27 +62,23 @@
       <br>
      
           
-        <form class="form-signin w-100 m-auto">
+        <form class="form-signin w-100 m-auto" action="../Controlli/controllo_login.php" method="POST">
           <h1 class="h3 mb-3 fw-normal">Accedi </h1>
       
           <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
             <label for="floatingInput">Indirizzo Email </label>
           </div>
 
           <br> 
 
           <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" name="password"class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
           </div>
       
-          <div class="form-check text-start my-3">
-            <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">
-              Ricordami 
-            </label>
-          </div>
+              
+         <br> 
           <button class="btn btn-dark w-100 py-2" type="submit">Accedi</button>
         </form>
           <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
