@@ -13,7 +13,7 @@
 
     <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 </head>
-<body class="pag2">
+<body>
     <?php  include("../db.php");
 
   $sql = "SELECT nome, cognome, link_imm FROM giocatori";
@@ -64,19 +64,18 @@
 
 <div class="container " id="rosa"> 
   <br>
-  <h3 class="text-start" >Rosa </h3>
+  <h3 >PORTIERI</h3>
   <br> 
-
   <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php
         if ($result->num_rows > 0) {
             // Stampiamo ogni giocatore nel formato HTML richiesto
             while($row = $result->fetch_assoc()) {
                 echo '<div class="col">
-                        <div class="card card-ts h-100" style="width: 18rem;">
+                        <div class="card rounded card-ts h-100 " style="width: 18rem;">
                             <div class="position-relative"></div>
-                            <img src="' . $row["link_imm"] . '" class="card-img-top"> 
-                            <div class="card-body">
+                            <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                            <div class="card-body ">
                                 <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
                             </div>
                         </div>
@@ -90,14 +89,19 @@
         $connessione->close();
         ?>
       </div>
-    </div>
-</div>
+      <h3>DIFENSORI</h3>
+      <br> 
 
+      <h3>CENTROCAMPISTI</h3>
+      <br> 
+
+      <h3>ATTACCANTI</h3>
+      <br> 
+     </div> 
+  </div>
 <br>
 <br>
 <br>
-
-
 <footer class="container-fluid justify-content-between  py-3" >
     
     <div class="row row-cols-1 row-cols-md-3 g-4 row ">
