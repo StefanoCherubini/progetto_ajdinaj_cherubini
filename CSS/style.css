@@ -5,10 +5,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Scope+One&family=Work+Sans:wght@200&display=swap');
 
 
-.pag2{
-    background-color: rgba(35, 2, 45, 0.751);
-}
 
+.pag2{
+    background-color: rgba(42, 6, 53, 0.751);
+}
 
 .nav-item{
     font-family: 'Work Sans', sans-serif;
@@ -21,13 +21,13 @@
 
 .menu {
     text-align: center;
-    background-color: rgba(229, 226, 226, 0.796) ;
+    background-color: rgba(229, 226, 226, 0.796);
     margin: auto;
 }
 
 table,td {
     margin: auto;
-    border: 2px collapse rgba(229, 226, 226, 0.796) ;
+    border: 2px collapse rgba(156, 24, 24, 0.796) ;
 }
 
 .strumenti {
@@ -60,18 +60,20 @@ h3{
 /* HOVER */
 
 td:hover { 
-    background-color: rgba(46, 5, 59, 0.751);
+    background-color: rgba(184, 184, 184, 0.719); 
     transform: scale(1.02);
     transition: transform .1s; 
 }
+
+
 
 /* stelline */ 
 .checked {
     color: rgb(217, 226, 50);
   }
 
-/* card chitarre */
 
+/* card giocatori */
 .card-text{
     font-size: 25px;
 }
@@ -84,6 +86,8 @@ td:hover {
 ul{
     list-style: none;
 }
+
+
 /* footer */
 
 footer{
@@ -94,8 +98,6 @@ footer{
 	background-color: #000000; /* colore primario */
 	color: rgba(166, 166, 166, 0.751);
 }
-
-
 
 
 footer .social-cont .social-list {
