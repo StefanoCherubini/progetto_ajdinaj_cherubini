@@ -5,20 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ROSA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    
     <link rel="stylesheet" type="text/css" href="../CSS/style.css"> 
-
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 </head>
 <body>
-    <?php  include("../db.php");
-
-  $sql = "SELECT nome, cognome, link_imm FROM giocatori";
-  $result = $connessione->query($sql);
-    ?>
+    <?php  include("../db.php");?>
 <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
@@ -42,8 +34,8 @@
                   Biglietti
                 </a>
                 <ul class="dropdown-menu ">
-                  <li><a class="dropdown-item" href="./Pages/aquisti.php">Acquista un biglietto</a></li>
-                  <li><a class="dropdown-item" href="./Pages/ricercaPosti.php">Ricerca posto</a></li>
+                  <li><a class="dropdown-item" href="aquisti.php">Acquista un biglietto</a></li>
+                  <li><a class="dropdown-item" href="ricercaPosti.php">Ricerca posto</a></li>
                 </ul>
               </li>
             </ul>
@@ -68,6 +60,8 @@
   <br> 
   <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php
+        $sql = "SELECT nome, cognome, link_imm FROM giocatori WHERE ruolo = 'Portiere'";
+        $result = $connessione->query($sql);
         if ($result->num_rows > 0) {
             // Stampiamo ogni giocatore nel formato HTML richiesto
             while($row = $result->fetch_assoc()) {
@@ -84,21 +78,89 @@
         } else {
             echo "<p class='text-center'>Nessun giocatore trovato.</p>";
         }
-
-        // Chiudiamo la connessione
-        $connessione->close();
         ?>
       </div>
+      
+      <br> 
       <h3>DIFENSORI</h3>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
       <br> 
+      <?php
+        $sql = "SELECT nome, cognome, link_imm FROM giocatori WHERE ruolo = 'Difensore'";
+        $result = $connessione->query($sql);
+        if ($result->num_rows > 0) {
+            // Stampiamo ogni giocatore nel formato HTML richiesto
+            while($row = $result->fetch_assoc()) {
+                echo '<div class="col">
+                        <div class="card rounded card-ts h-100 " style="width: 18rem;">
+                            <div class="position-relative"></div>
+                            <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                            <div class="card-body ">
+                                <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                            </div>
+                        </div>
+                    </div>';
+            }
+        } else {
+            echo "<p class='text-center'>Nessun giocatore trovato.</p>";
+        }
+        ?>
+        </div>
 
-      <h3>CENTROCAMPISTI</h3>
+        <br>
+        <h3>CENTROCAMPISTI</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+        <br> 
+      <?php
+        $sql = "SELECT nome, cognome, link_imm FROM giocatori WHERE ruolo = 'Centrocampista'";
+        $result = $connessione->query($sql);
+        if ($result->num_rows > 0) {
+            // Stampiamo ogni giocatore nel formato HTML richiesto
+            while($row = $result->fetch_assoc()) {
+                echo '<div class="col">
+                        <div class="card rounded card-ts h-100 " style="width: 18rem;">
+                            <div class="position-relative"></div>
+                            <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                            <div class="card-body ">
+                                <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                            </div>
+                        </div>
+                    </div>';
+            }
+        } else {
+            echo "<p class='text-center'>Nessun giocatore trovato.</p>";
+        }
+        ?>
+        </div>
       <br> 
-
       <h3>ATTACCANTI</h3>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
       <br> 
+      <?php
+        $sql = "SELECT nome, cognome, link_imm FROM giocatori WHERE ruolo = 'Attaccante'";
+        $result = $connessione->query($sql);
+        if ($result->num_rows > 0) {
+            // Stampiamo ogni giocatore nel formato HTML richiesto
+            while($row = $result->fetch_assoc()) {
+                echo '<div class="col">
+                        <div class="card rounded card-ts h-100 " style="width: 18rem;">
+                            <div class="position-relative"></div>
+                            <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                            <div class="card-body ">
+                                <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                            </div>
+                        </div>
+                    </div>';
+            }
+        } else {
+            echo "<p class='text-center'>Nessun giocatore trovato.</p>";
+        }
+        // Chiudiamo la connessione
+        $connessione->close();
+        ?>     
      </div> 
-  </div>
+   </div>
+</div>
 <br>
 <br>
 <br>
