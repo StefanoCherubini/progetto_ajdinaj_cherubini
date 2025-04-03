@@ -38,8 +38,8 @@
                   Biglietti
                 </a>
                 <ul class="dropdown-menu ">
-                  <li><a class="dropdown-item" href="./Pages/aquisti.php">Acquista un biglietto</a></li>
-                  <li><a class="dropdown-item" href="./Pages/ricercaPosti.php">Ricerca posto</a></li>
+                  <li><a class="dropdown-item" href="aquisti.php">Acquista un biglietto</a></li>
+                  <li><a class="dropdown-item" href="ricercaPosti.php">Ricerca posto</a></li>
                 </ul>
               </li>
             </ul>
