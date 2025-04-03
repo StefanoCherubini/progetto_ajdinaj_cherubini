@@ -67,104 +67,191 @@
         </div>
       </nav>
 
-      <h2 class="container">Seleziona il tuo posto nella Curva Fiesole</h2>
-  <div class="container">
-    <svg id="svgArea" width="900" height="600"></svg>
-  </div>
-  <div id="popup"></div>
-  
-  <script>
-    (function() {
-      const svgNS = "http://www.w3.org/2000/svg";
-      const svg = document.getElementById("svgArea");
-      
-      // Parametri per la disposizione dei posti
-      const rowCount = 8;        // 0-8
-      const maxSeatsPerRow = 100; // Numero massimo di posti nella fila più esterna
-      const baseRadius = 200;     // Raggio della prima fila (posti) attuale
-      const deltaRadius = 22;      // Incremento del raggio per ogni fila
-      const centerX = 420;        // Centro X dell'arco
-      const centerY = 400;        // Centro Y: posizionato per far aprire l'arco verso il basso
-      const angleMin = Math.PI;   // 180°: parte da sinistra
-      const angleMax = 2*Math.PI;         // 0°: arriva a destra
-      
-      // Disegna l'arco principale (fila più esterna)
-      const outerRadius = baseRadius + (rowCount - 1) * deltaRadius;
-      const startX = centerX + outerRadius * Math.cos(angleMin);
-      const startY = centerY + outerRadius * Math.sin(angleMin);
-      const endX   = centerX + outerRadius * Math.cos(angleMax);
-      const endY   = centerY + outerRadius * Math.sin(angleMax);
+<div class="container bg-body-tertiary p-3">
+  <h2>Seleziona il tuo posto nella Curva Fiesole</h2>
+  <svg id="svgArea" width="900" height="400"></svg>
+</div>
+<div id="popup"></div>
+
+<script>
+  (function () {
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.getElementById("svgArea");
+
+    // Parametri generali
+    const maxSeatsPerRow = 100; // Numero massimo di posti nella fila più esterna
+    const centerX = 450; // Centro X dell'arco
+    const centerY = 380; // Centro Y
+    const angleMin = Math.PI; // 180°: parte da sinistra
+    const angleMax = 2 * Math.PI; // 0°: arriva a destra
+
+    // Parametri per il cerchio grande
+    const largeRows = 8;
+    const baseRadiusLarge = 200;
+    const deltaRadiusLarge = 22;
+
+    // Parametri per il cerchio piccolo (interno, blu)
+    const smallRows = 3;
+    const baseRadiusSmall = 120;
+    const deltaRadiusSmall = 18;
+
+    // Funzione per creare un arco
+    function creaArco(radius, color) {
+      const startX = centerX + radius * Math.cos(angleMin);
+      const startY = centerY + radius * Math.sin(angleMin);
+      const endX = centerX + radius * Math.cos(angleMax);
+      const endY = centerY + radius * Math.sin(angleMax);
       const path = document.createElementNS(svgNS, "path");
-      path.setAttribute("d", `M ${startX} ${startY} A ${outerRadius} ${outerRadius} 0 0 1 ${endX} ${endY}`);
+      path.setAttribute("d", `M ${startX} ${startY} A ${radius} ${radius} 0 0 1 ${endX} ${endY}`);
       path.setAttribute("fill", "none");
-      path.setAttribute("stroke", "white");
       path.setAttribute("stroke-width", "2");
       svg.appendChild(path);
-      
-      // Disegna un arco aggiuntivo più piccolo, distante dalla prima fila
-      const innerArcRadius = baseRadius - 30;
-      const innerStartX = centerX + innerArcRadius * Math.cos(angleMin);
-      const innerStartY = centerY + innerArcRadius * Math.sin(angleMin);
-      const innerEndX   = centerX + innerArcRadius * Math.cos(angleMax);
-      const innerEndY   = centerY + innerArcRadius * Math.sin(angleMax);
-      const innerPath = document.createElementNS(svgNS, "path");
-      innerPath.setAttribute("d", `M ${innerStartX} ${innerStartY} A ${innerArcRadius} ${innerArcRadius} 0 0 1 ${innerEndX} ${innerEndY}`);
-      innerPath.setAttribute("fill", "none");
-      innerPath.setAttribute("stroke", "blue");
-      innerPath.setAttribute("stroke-width", "2");
-      svg.appendChild(innerPath);
-      
-      // Funzione per creare un posto
-      function creaPosto(fila, num, cx, cy, disponibile = true) {
-        const circle = document.createElementNS(svgNS, "circle");
-        circle.setAttribute("cx", cx);
-        circle.setAttribute("cy", cy);
-        circle.setAttribute("r", 4);
-        circle.setAttribute("data-fila", fila);
-        circle.setAttribute("data-numero", num);
-        if (disponibile) {
-          circle.classList.add("posto", "libero");
-          circle.addEventListener("click", function(e) {
-            // Evita che l'evento si propaghi
-            e.stopPropagation();
-            // Mostra il popup con le informazioni del posto
-            const popup = document.getElementById('popup');
-            popup.innerHTML = `<strong>Posto selezionato:</strong> Fila ${this.dataset.fila}, Numero ${this.dataset.numero}<br><button id="chiudiPopup">Chiudi</button>`;
-            // Posiziona il popup vicino al puntatore
-            popup.style.left = (e.clientX + 10) + 'px';
-            popup.style.top = (e.clientY + 10) + 'px';
-            popup.style.display = 'block';
-            // Aggiungi listener per chiudere il popup
-            document.getElementById('chiudiPopup').addEventListener('click', function(ev) {
-              popup.style.display = 'none';
-              ev.stopPropagation();
-            });
+    }
+
+    // Disegna gli archi
+    creaArco(baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge); // Arco grande
+    creaArco(baseRadiusSmall + (smallRows - 1) * deltaRadiusSmall); // Arco piccolo
+
+    // Funzione per creare un posto
+    function creaPosto(fila, num, cx, cy, disponibile = true) {
+      const circle = document.createElementNS(svgNS, "circle");
+      circle.setAttribute("cx", cx);
+      circle.setAttribute("cy", cy);
+      circle.setAttribute("r", 4);
+      circle.setAttribute("data-fila", fila);
+      circle.setAttribute("data-numero", num);
+      if (disponibile) {
+        circle.classList.add("posto", "libero");
+        circle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const popup = document.getElementById("popup");
+          popup.innerHTML = `<strong>Posto selezionato:</strong> Fila ${this.dataset.fila}, Numero ${this.dataset.numero}<br>
+            <button id="chiudiPopup">Chiudi</button>
+            <button id="confermaPosto">Conferma</button>`;
+          popup.style.left = e.clientX + 10 + "px";
+          popup.style.top = e.clientY + 10 + "px";
+          popup.style.display = "block";
+
+          document.getElementById("chiudiPopup").addEventListener("click", function (ev) {
+            popup.style.display = "none";
+            ev.stopPropagation();
           });
-        } else {
-          circle.classList.add("posto", "occupato");
-        }
-        svg.appendChild(circle);
+
+          document.getElementById("confermaPosto").addEventListener("click", function (ev) {
+            document.getElementById("inputFila").value = circle.dataset.fila;
+            document.getElementById("inputNumero").value = circle.dataset.numero;
+            popup.style.display = "none";
+            ev.stopPropagation();
+          });
+        });
+      } else {
+        circle.classList.add("posto", "occupato");
       }
-      
-      // Genera i posti per ogni fila e per ogni posto in quella fila
-      for (let i = 0; i < rowCount; i++) {
-        const fila = String.fromCharCode(65 + i);
-        const radius = baseRadius + i * deltaRadius;
-        const seatsInRow = Math.floor(maxSeatsPerRow * (radius / (baseRadius + (rowCount - 1) * deltaRadius)));
-        for (let j = 0; j < seatsInRow; j++) {
-          const angle = angleMin + j * (angleMax - angleMin) / (seatsInRow - 1);
-          const cx = centerX + radius * Math.cos(angle);
-          const cy = centerY + radius * Math.sin(angle);
-          creaPosto(fila, j + 1, cx, cy, true);
-        }
+      svg.appendChild(circle);
+    }
+
+    // Genera i posti per il cerchio piccolo (A-C)
+    for (let i = 0; i < smallRows; i++) {
+      const fila = String.fromCharCode(65 + i); // A, B, C
+      const radius = baseRadiusSmall + i * deltaRadiusSmall;
+      const seatsInRow = Math.floor(maxSeatsPerRow * (radius / (baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge)));
+      for (let j = 0; j < seatsInRow; j++) {
+        const angle = angleMin + (j * (angleMax - angleMin)) / (seatsInRow - 1);
+        const cx = centerX + radius * Math.cos(angle);
+        const cy = centerY + radius * Math.sin(angle);
+        creaPosto(fila, j + 1, cx, cy, true);
       }
-      
-      // Chiudi il popup se si clicca fuori
-      document.addEventListener('click', function() {
-        document.getElementById('popup').style.display = 'none';
-      });
-    })();
-  </script>
+    }
+
+    // Genera i posti per il cerchio grande (D-M)
+    for (let i = 0; i < largeRows; i++) {
+      const fila = String.fromCharCode(68 + i); // D, E, F, ..., M
+      const radius = baseRadiusLarge + i * deltaRadiusLarge;
+      const seatsInRow = Math.floor(maxSeatsPerRow * (radius / (baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge)));
+      for (let j = 0; j < seatsInRow; j++) {
+        const angle = angleMin + (j * (angleMax - angleMin)) / (seatsInRow - 1);
+        const cx = centerX + radius * Math.cos(angle);
+        const cy = centerY + radius * Math.sin(angle);
+        creaPosto(fila, j + 1, cx, cy, true);
+      }
+    }
+
+    document.addEventListener("click", function () {
+      document.getElementById("popup").style.display = "none";
+    });
+  })();
+</script>
+
+<div class="container text-start bg-body-tertiary p-5">
+<form class="row g-3">
+  <div class="col-md-6">
+    <label for="inputname" class="form-label">Nome</label>
+    <input type="text" class="form-control" id="inputname">
+  </div>
+  <div class="col-md-6">
+    <label for="inputsurname" class="form-label">Cognome</label>
+    <input type="text" class="form-control" id="inputsurname">
+  </div>
+  <div class="col-md-6">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail4">
+  </div>
+  <div class="col-md-6">
+    <label for="inputPassword4" class="form-label">Password</label>
+    <input type="password" class="form-control" id="inputPassword4">
+  </div>
+
+  <h3>Indirizzo</h3>
+
+  <div class="col-4">
+    <label for="inputAddress" class="form-label">Via/Piazza</label>
+    <input type="text" class="form-control" id="inputAddress" placeholder="via del filarete">
+  </div>
+  <div class="col-4">
+    <label for="inputAddress2" class="form-label">Civico/Interno</label>
+    <input type="text" class="form-control" id="inputAddress2" placeholder="5/a, interno 38">
+  </div>
+  <div class="col-md-4">
+    <label for="inputCity" class="form-label">Città</label>
+    <input type="text" class="form-control" id="inputCity">
+  </div>
+
+  <h3>Posto</h3>
+
+  <div class="col-md-4">
+    <label for="inputCity" class="form-label">Fila</label>
+    <input type="text" class="form-control" id="inputFila">
+  </div>
+
+  <div class="col-md-4">
+    <label for="inputCity" class="form-label">Numero</label>
+    <input type="text" class="form-control" id="inputNumero"> 
+  </div>
+
+  <div class="col-md-4">
+    <label for="inputState" class="form-label">State</label>
+    <select id="inputState" class="form-select">
+      <option selected>Choose...</option>
+      <option>...</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label for="inputZip" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="inputZip">
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Sign in</button>
+  </div>
+</form>
+</div>
 
 <footer class="container-fluid justify-content-between  py-3" >
     
