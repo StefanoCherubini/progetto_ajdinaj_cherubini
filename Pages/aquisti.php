@@ -120,12 +120,13 @@
       circle.setAttribute("r", 4);
       circle.setAttribute("data-fila", fila);
       circle.setAttribute("data-numero", num);
+      circle.setAttribute("data-costo", 15);
       if (disponibile) {
         circle.classList.add("posto", "libero");
         circle.addEventListener("click", function (e) {
           e.stopPropagation();
           const popup = document.getElementById("popup");
-          popup.innerHTML = `<strong>Posto selezionato:</strong> Fila ${this.dataset.fila}, Numero ${this.dataset.numero}<br>
+          popup.innerHTML = `<strong>Posto selezionato:</strong> <br> Fila: ${this.dataset.fila} <br> Numero: ${this.dataset.numero} <br> Costo: ${this.dataset.costo}€<br>
             <button id="chiudiPopup">Chiudi</button>
             <button id="confermaPosto">Conferma</button>`;
           popup.style.left = e.clientX + 10 + "px";
@@ -140,6 +141,7 @@
           document.getElementById("confermaPosto").addEventListener("click", function (ev) {
             document.getElementById("inputFila").value = circle.dataset.fila;
             document.getElementById("inputNumero").value = circle.dataset.numero;
+            document.getElementById("costoBiglietto").value = circle.dataset.costo;
             popup.style.display = "none";
             ev.stopPropagation();
           });
@@ -218,38 +220,26 @@
 
   <h3>Posto</h3>
 
-  <div class="col-md-4">
-    <label for="inputCity" class="form-label">Fila</label>
+  <div class="col-md-2">
+    <label for="inputFila" class="form-label">Fila</label>
     <input type="text" class="form-control" id="inputFila">
   </div>
 
-  <div class="col-md-4">
-    <label for="inputCity" class="form-label">Numero</label>
+  <div class="col-md-2">
+    <label for="inputNumero" class="form-label">Numero</label>
     <input type="text" class="form-control" id="inputNumero"> 
   </div>
 
-  <div class="col-md-4">
-    <label for="inputState" class="form-label">State</label>
-    <select id="inputState" class="form-select">
-      <option selected>Choose...</option>
-      <option>...</option>
-    </select>
-  </div>
   <div class="col-md-2">
-    <label for="inputZip" class="form-label">Zip</label>
-    <input type="text" class="form-control" id="inputZip">
+    <label for="costoBiglietto" class="form-label">Costo</label>
+    <input type="text" class="form-control" id="costoBiglietto"> 
   </div>
+
   <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
+    <button type="submit" class="btn btn-primary">Conferma</button>
+    <button class="btn btn--danger-emphasis" hfer="./">Annulla</button>
   </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </div>
+ 
 </form>
 </div>
 
