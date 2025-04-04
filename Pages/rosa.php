@@ -60,7 +60,7 @@
   <br> 
   <div class="row row-cols-1 row-cols-md-3 g-4">
         <?php
-        $sql = "SELECT nome, cognome, link_imm FROM giocatori WHERE ruolo = 'Portiere'";
+        $sql = "SELECT id, nome, cognome, link_imm FROM giocatori WHERE ruolo = 'Portiere'";
         $result = $connessione->query($sql);
         if ($result->num_rows > 0) {
             // Stampiamo ogni giocatore nel formato HTML richiesto
@@ -68,7 +68,7 @@
                 echo '<div class="col">
                         <div class="card rounded card-ts h-100 " style="width: 18rem;">
                             <div class="position-relative"></div>
-                            <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                            <a href="../Controlli/dettagli_giocatore.php?id='. $row['id'] .'"><img src="' . $row["link_imm"] . '" class="card-img-top rounded"></a> 
                             <div class="card-body ">
                                 <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
                             </div>
