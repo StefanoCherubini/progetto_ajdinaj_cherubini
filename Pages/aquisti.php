@@ -14,8 +14,7 @@
     .libero { fill: green; }
     .occupato { fill: red; }
     .selezionato { fill: yellow; stroke: black; stroke-width: 2px; }
-    
-    /* Stile per il popup */
+
     #popup {
       display: none;
       position: absolute;
@@ -33,7 +32,8 @@
   </style>
 </head>
 <body>
-<?php  include("../db.php");?>
+<?php  include("../db.php"); ?>
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
@@ -74,115 +74,172 @@
 <div id="popup"></div>
 
 <script>
-  (function () {
-    const svgNS = "http://www.w3.org/2000/svg";
-    const svg = document.getElementById("svgArea");
+(function () {
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("svgArea");
+  const popup = document.getElementById("popup");
+  let postiSelezionati = [];
 
-    // Parametri generali
-    const maxSeatsPerRow = 100; // Numero massimo di posti nella fila più esterna
-    const centerX = 450; // Centro X dell'arco
-    const centerY = 380; // Centro Y
-    const angleMin = Math.PI; // 180°: parte da sinistra
-    const angleMax = 2 * Math.PI; // 0°: arriva a destra
+  const maxSeatsPerRow = 100;
+  const centerX = 450;
+  const centerY = 380;
+  const angleMin = Math.PI;
+  const angleMax = 2 * Math.PI;
 
-    // Parametri per il cerchio grande
-    const largeRows = 8;
-    const baseRadiusLarge = 200;
-    const deltaRadiusLarge = 22;
+  const largeRows = 10; // 10 righe per il cerchio grande (D-M)
+  const baseRadiusLarge = 200;
+  const deltaRadiusLarge = 22;
 
-    // Parametri per il cerchio piccolo (interno, blu)
-    const smallRows = 3;
-    const baseRadiusSmall = 120;
-    const deltaRadiusSmall = 18;
+  const smallRows = 3; // 3 righe per il cerchio piccolo (A-C)
+  const baseRadiusSmall = 120;
+  const deltaRadiusSmall = 18;
 
-    // Funzione per creare un arco
-    function creaArco(radius, color) {
-      const startX = centerX + radius * Math.cos(angleMin);
-      const startY = centerY + radius * Math.sin(angleMin);
-      const endX = centerX + radius * Math.cos(angleMax);
-      const endY = centerY + radius * Math.sin(angleMax);
-      const path = document.createElementNS(svgNS, "path");
-      path.setAttribute("d", `M ${startX} ${startY} A ${radius} ${radius} 0 0 1 ${endX} ${endY}`);
-      path.setAttribute("fill", "none");
-      path.setAttribute("stroke-width", "2");
-      svg.appendChild(path);
+  // Funzione per creare l'arco (circuito dei posti)
+  function creaArco(radius) {
+    const startX = centerX + radius * Math.cos(angleMin);
+    const startY = centerY + radius * Math.sin(angleMin);
+    const endX = centerX + radius * Math.cos(angleMax);
+    const endY = centerY + radius * Math.sin(angleMax);
+    const path = document.createElementNS(svgNS, "path");
+    path.setAttribute("d", `M ${startX} ${startY} A ${radius} ${radius} 0 0 1 ${endX} ${endY}`);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke-width", "2");
+    svg.appendChild(path);
+  }
+
+  // Crea gli archi per le righe del cerchio grande e piccolo
+  creaArco(baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge);
+  creaArco(baseRadiusSmall + (smallRows - 1) * deltaRadiusSmall);
+
+  // Funzione per creare un posto
+  function creaPosto(fila, num, cx, cy, disponibile = true) {
+    const circle = document.createElementNS(svgNS, "circle");
+    circle.setAttribute("cx", cx);
+    circle.setAttribute("cy", cy);
+    circle.setAttribute("r", 4);
+    circle.setAttribute("data-fila", fila);
+    circle.setAttribute("data-numero", num);
+    circle.setAttribute("data-costo", 15);
+
+    if (disponibile) {
+      circle.classList.add("posto", "libero");
+    } else {
+      circle.classList.add("posto", "occupato"); // Colore rosso per posti occupati
     }
 
-    // Disegna gli archi
-    creaArco(baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge); // Arco grande
-    creaArco(baseRadiusSmall + (smallRows - 1) * deltaRadiusSmall); // Arco piccolo
+    circle.addEventListener("click", function (e) {
+      const fila = this.dataset.fila;
+      const numero = this.dataset.numero;
 
-    // Funzione per creare un posto
-    function creaPosto(fila, num, cx, cy, disponibile = true) {
-      const circle = document.createElementNS(svgNS, "circle");
-      circle.setAttribute("cx", cx);
-      circle.setAttribute("cy", cy);
-      circle.setAttribute("r", 4);
-      circle.setAttribute("data-fila", fila);
-      circle.setAttribute("data-numero", num);
-      circle.setAttribute("data-costo", 15);
-      if (disponibile) {
-        circle.classList.add("posto", "libero");
-        circle.addEventListener("click", function (e) {
-          e.stopPropagation();
-          const popup = document.getElementById("popup");
-          popup.innerHTML = `<strong>Posto selezionato:</strong> <br> Fila: ${this.dataset.fila} <br> Numero: ${this.dataset.numero} <br> Costo: ${this.dataset.costo}€<br>
-            <button id="chiudiPopup">Chiudi</button>
-            <button id="confermaPosto">Conferma</button>`;
-          popup.style.left = e.clientX + 10 + "px";
-          popup.style.top = e.clientY + 10 + "px";
-          popup.style.display = "block";
+      popup.innerHTML = `
+        <strong>Fila:</strong> ${fila}<br>
+        <strong>Posto:</strong> ${numero}<br>
+        <button id="btnConferma" class="btn btn-success btn-sm mt-2">Conferma</button>
+        <button id="btnAnnulla" class="btn btn-danger btn-sm mt-2">Annulla</button>
+      `;
 
-          document.getElementById("chiudiPopup").addEventListener("click", function (ev) {
-            popup.style.display = "none";
-            ev.stopPropagation();
-          });
+      popup.style.display = "block";
+      popup.style.left = e.pageX + 10 + "px";
+      popup.style.top = e.pageY + 10 + "px";
 
-          document.getElementById("confermaPosto").addEventListener("click", function (ev) {
-            document.getElementById("inputFila").value = circle.dataset.fila;
-            document.getElementById("inputNumero").value = circle.dataset.numero;
-            document.getElementById("costoBiglietto").value = circle.dataset.costo;
-            popup.style.display = "none";
-            ev.stopPropagation();
-          });
-        });
-      } else {
-        circle.classList.add("posto", "occupato");
-      }
-      svg.appendChild(circle);
-    }
+      // Bottoni
+      document.getElementById("btnConferma").addEventListener("click", () => {
+        if (postiSelezionati.length >= 3) {
+          alert("Puoi selezionare al massimo 3 posti.");
+          return;
+        }
 
-    // Genera i posti per il cerchio piccolo (A-C)
-    for (let i = 0; i < smallRows; i++) {
-      const fila = String.fromCharCode(65 + i); // A, B, C
-      const radius = baseRadiusSmall + i * deltaRadiusSmall;
-      const seatsInRow = Math.floor(maxSeatsPerRow * (radius / (baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge)));
-      for (let j = 0; j < seatsInRow; j++) {
-        const angle = angleMin + (j * (angleMax - angleMin)) / (seatsInRow - 1);
-        const cx = centerX + radius * Math.cos(angle);
-        const cy = centerY + radius * Math.sin(angle);
-        creaPosto(fila, j + 1, cx, cy, true);
-      }
-    }
+        if (postiSelezionati.find(p => p.fila === fila && p.numero === numero)) {
+          alert("Hai già selezionato questo posto.");
+          return;
+        }
 
-    // Genera i posti per il cerchio grande (D-M)
-    for (let i = 0; i < largeRows; i++) {
-      const fila = String.fromCharCode(68 + i); // D, E, F, ..., M
-      const radius = baseRadiusLarge + i * deltaRadiusLarge;
-      const seatsInRow = Math.floor(maxSeatsPerRow * (radius / (baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge)));
-      for (let j = 0; j < seatsInRow; j++) {
-        const angle = angleMin + (j * (angleMax - angleMin)) / (seatsInRow - 1);
-        const cx = centerX + radius * Math.cos(angle);
-        const cy = centerY + radius * Math.sin(angle);
-        creaPosto(fila, j + 1, cx, cy, true);
-      }
-    }
+        this.classList.remove("libero");
+        this.classList.add("selezionato");
 
-    document.addEventListener("click", function () {
-      document.getElementById("popup").style.display = "none";
+        postiSelezionati.push({ fila, numero, costo: 15 });
+        aggiornaForm();
+        popup.style.display = "none";
+      });
+
+      document.getElementById("btnAnnulla").addEventListener("click", () => {
+        popup.style.display = "none";
+      });
+
+      // Previene la propagazione al document.click
+      e.stopPropagation();
     });
-  })();
+
+    svg.appendChild(circle);
+  }
+
+  // Funzione per aggiornare il form con i posti selezionati
+  function aggiornaForm() {
+    const container = document.getElementById("postiSelezionati");
+    container.innerHTML = "";
+
+    let totale = 0;
+
+    postiSelezionati.forEach(p => {
+      totale += p.costo;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "row g-2";
+      wrapper.innerHTML = `
+        <div class="col-md-2">
+          <label class="form-label">Fila</label>
+          <input type="text" class="form-control" name="fila[]" value="${p.fila}" readonly>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Numero</label>
+          <input type="text" class="form-control" name="numero[]" value="${p.numero}" readonly>
+        </div>
+      `;
+      container.appendChild(wrapper);
+    });
+
+    document.getElementById("costoBiglietto").value = totale + "€";
+  }
+
+  // Caricamento dei posti dal server
+  fetch('../Controlli/getPosti.php')
+    .then(response => response.json())
+    .then(posti => {
+      const righeCerchioPiccolo = ['A', 'B', 'C']; // Le righe del cerchio piccolo (A-C)
+      const righeCerchioGrande = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']; // Le righe del cerchio grande (D-M)
+
+      // Creazione dei posti per ogni fila e numero di posto
+      posti.forEach(p => {
+        const numero = p.num_posto;
+        const disponibile = p.disponibile;
+
+        // Crea i posti nelle file del cerchio piccolo (A-C)
+        righeCerchioPiccolo.forEach((fila, index) => {
+          const radius = baseRadiusSmall + index * deltaRadiusSmall; // Calcola il raggio per la fila
+          const angle = angleMin + (numero * (angleMax - angleMin)) / maxSeatsPerRow;
+          const cx = centerX + radius * Math.cos(angle);
+          const cy = centerY + radius * Math.sin(angle);
+          creaPosto(fila, numero, cx, cy, disponibile);
+        });
+
+        // Crea i posti nelle file del cerchio grande (D-M)
+        righeCerchioGrande.forEach((fila, index) => {
+          const radius = baseRadiusLarge + index * deltaRadiusLarge; // Calcola il raggio per la fila
+          const angle = angleMin + (numero * (angleMax - angleMin)) / maxSeatsPerRow;
+          const cx = centerX + radius * Math.cos(angle);
+          const cy = centerY + radius * Math.sin(angle);
+          creaPosto(fila, numero, cx, cy, disponibile);
+        });
+      });
+    });
+
+  // Nasconde popup cliccando fuori
+  document.addEventListener("click", () => {
+    popup.style.display = "none";
+  });
+})();
 </script>
+
 
 <div class="container text-start bg-body-tertiary p-5">
 <form class="row g-3">
@@ -220,15 +277,7 @@
 
   <h3>Posto</h3>
 
-  <div class="col-md-2">
-    <label for="inputFila" class="form-label">Fila</label>
-    <input type="text" class="form-control" id="inputFila">
-  </div>
-
-  <div class="col-md-2">
-    <label for="inputNumero" class="form-label">Numero</label>
-    <input type="text" class="form-control" id="inputNumero"> 
-  </div>
+  <div id="postiSelezionati" class="row g-3"></div>
 
   <div class="col-md-2">
     <label for="costoBiglietto" class="form-label">Costo</label>
@@ -236,8 +285,8 @@
   </div>
 
   <div class="col-12">
-    <button type="submit" class="btn btn-primary">Conferma</button>
-    <button class="btn btn--danger-emphasis" hfer="./">Annulla</button>
+    <button type="submit" class="btn btn-success">Conferma</button>
+    <button class="btn btn-danger" hfer="./">Annulla</button>
   </div>
  
 </form>
