@@ -1,7 +1,7 @@
 <?php
 include("../db.php");
 
-$sql = "SELECT fila, num_posto, disponibile FROM posti";
+$sql = "SELECT fila, num_posto FROM posti WHERE disponibile = 0";
 $result = $connessione->query($sql);
 
 $posti = [];

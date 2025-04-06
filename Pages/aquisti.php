@@ -80,21 +80,20 @@
   const popup = document.getElementById("popup");
   let postiSelezionati = [];
 
-  const maxSeatsPerRow = 100;
+  const maxSeatsPerRowLarge = 70;
+  const maxSeatsPerRowSmall = 35;
+
   const centerX = 450;
-  const centerY = 380;
+  const centerY = 390;
   const angleMin = Math.PI;
   const angleMax = 2 * Math.PI;
 
-  const largeRows = 10; // 10 righe per il cerchio grande (D-M)
-  const baseRadiusLarge = 200;
-  const deltaRadiusLarge = 22;
+  const baseRadiusLarge = 180;
+  const deltaRadiusLarge = 20;
 
-  const smallRows = 3; // 3 righe per il cerchio piccolo (A-C)
-  const baseRadiusSmall = 120;
-  const deltaRadiusSmall = 18;
+  const baseRadiusSmall = 100;
+  const deltaRadiusSmall = 16;
 
-  // Funzione per creare l'arco (circuito dei posti)
   function creaArco(radius) {
     const startX = centerX + radius * Math.cos(angleMin);
     const startY = centerY + radius * Math.sin(angleMin);
@@ -107,11 +106,9 @@
     svg.appendChild(path);
   }
 
-  // Crea gli archi per le righe del cerchio grande e piccolo
-  creaArco(baseRadiusLarge + (largeRows - 1) * deltaRadiusLarge);
-  creaArco(baseRadiusSmall + (smallRows - 1) * deltaRadiusSmall);
+  creaArco(baseRadiusLarge + 5 * deltaRadiusLarge);
+  creaArco(baseRadiusSmall + 2 * deltaRadiusSmall);
 
-  // Funzione per creare un posto
   function creaPosto(fila, num, cx, cy, disponibile = true) {
     const circle = document.createElementNS(svgNS, "circle");
     circle.setAttribute("cx", cx);
@@ -123,57 +120,55 @@
 
     if (disponibile) {
       circle.classList.add("posto", "libero");
+
+      circle.addEventListener("click", function (e) {
+        const fila = this.dataset.fila;
+        const numero = this.dataset.numero;
+
+        popup.innerHTML = `
+          <strong>Fila:</strong> ${fila}<br>
+          <strong>Posto:</strong> ${numero}<br>
+          <button id="btnConferma" class="btn btn-success btn-sm mt-2">Conferma</button>
+          <button id="btnAnnulla" class="btn btn-danger btn-sm mt-2">Annulla</button>
+        `;
+
+        popup.style.display = "block";
+        popup.style.left = e.pageX + 10 + "px";
+        popup.style.top = e.pageY + 10 + "px";
+
+        document.getElementById("btnConferma").addEventListener("click", () => {
+          if (postiSelezionati.length >= 3) {
+            alert("Puoi selezionare al massimo 3 posti.");
+            return;
+          }
+
+          if (postiSelezionati.find(p => p.fila === fila && p.numero === numero)) {
+            alert("Hai già selezionato questo posto.");
+            return;
+          }
+
+          this.classList.remove("libero");
+          this.classList.add("selezionato");
+
+          postiSelezionati.push({ fila, numero, costo: 15 });
+          aggiornaForm();
+          popup.style.display = "none";
+        });
+
+        document.getElementById("btnAnnulla").addEventListener("click", () => {
+          popup.style.display = "none";
+        });
+
+        e.stopPropagation();
+      });
+
     } else {
-      circle.classList.add("posto", "occupato"); // Colore rosso per posti occupati
+      circle.classList.add("posto", "occupato"); // Non cliccabile
     }
-
-    circle.addEventListener("click", function (e) {
-      const fila = this.dataset.fila;
-      const numero = this.dataset.numero;
-
-      popup.innerHTML = `
-        <strong>Fila:</strong> ${fila}<br>
-        <strong>Posto:</strong> ${numero}<br>
-        <button id="btnConferma" class="btn btn-success btn-sm mt-2">Conferma</button>
-        <button id="btnAnnulla" class="btn btn-danger btn-sm mt-2">Annulla</button>
-      `;
-
-      popup.style.display = "block";
-      popup.style.left = e.pageX + 10 + "px";
-      popup.style.top = e.pageY + 10 + "px";
-
-      // Bottoni
-      document.getElementById("btnConferma").addEventListener("click", () => {
-        if (postiSelezionati.length >= 3) {
-          alert("Puoi selezionare al massimo 3 posti.");
-          return;
-        }
-
-        if (postiSelezionati.find(p => p.fila === fila && p.numero === numero)) {
-          alert("Hai già selezionato questo posto.");
-          return;
-        }
-
-        this.classList.remove("libero");
-        this.classList.add("selezionato");
-
-        postiSelezionati.push({ fila, numero, costo: 15 });
-        aggiornaForm();
-        popup.style.display = "none";
-      });
-
-      document.getElementById("btnAnnulla").addEventListener("click", () => {
-        popup.style.display = "none";
-      });
-
-      // Previene la propagazione al document.click
-      e.stopPropagation();
-    });
 
     svg.appendChild(circle);
   }
 
-  // Funzione per aggiornare il form con i posti selezionati
   function aggiornaForm() {
     const container = document.getElementById("postiSelezionati");
     container.innerHTML = "";
@@ -201,45 +196,39 @@
     document.getElementById("costoBiglietto").value = totale + "€";
   }
 
-  // Caricamento dei posti dal server
   fetch('../Controlli/getPosti.php')
     .then(response => response.json())
-    .then(posti => {
-      const righeCerchioPiccolo = ['A', 'B', 'C']; // Le righe del cerchio piccolo (A-C)
-      const righeCerchioGrande = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']; // Le righe del cerchio grande (D-M)
+    .then(postiOccupati => {
+      const occupatiSet = new Set(postiOccupati.map(p => `${p.fila}-${p.num_posto}`));
 
-      // Creazione dei posti per ogni fila e numero di posto
-      posti.forEach(p => {
-        const numero = p.num_posto;
-        const disponibile = p.disponibile;
+      const righePiccolo = ['A', 'B', 'C'];
+      const righeGrande = ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'];
+      const tutteLeRighe = [...righePiccolo, ...righeGrande];
 
-        // Crea i posti nelle file del cerchio piccolo (A-C)
-        righeCerchioPiccolo.forEach((fila, index) => {
-          const radius = baseRadiusSmall + index * deltaRadiusSmall; // Calcola il raggio per la fila
-          const angle = angleMin + (numero * (angleMax - angleMin)) / maxSeatsPerRow;
+      tutteLeRighe.forEach(fila => {
+        const isPiccolo = righePiccolo.includes(fila);
+        const index = isPiccolo ? righePiccolo.indexOf(fila) : righeGrande.indexOf(fila);
+        const radius = isPiccolo
+          ? baseRadiusSmall + index * deltaRadiusSmall
+          : baseRadiusLarge + index * deltaRadiusLarge;
+        const postiPerFila = isPiccolo ? maxSeatsPerRowSmall : maxSeatsPerRowLarge;
+
+        for (let num = 1; num <= postiPerFila; num++) {
+          const angle = angleMin + (num * (angleMax - angleMin)) / postiPerFila;
           const cx = centerX + radius * Math.cos(angle);
           const cy = centerY + radius * Math.sin(angle);
-          creaPosto(fila, numero, cx, cy, disponibile);
-        });
 
-        // Crea i posti nelle file del cerchio grande (D-M)
-        righeCerchioGrande.forEach((fila, index) => {
-          const radius = baseRadiusLarge + index * deltaRadiusLarge; // Calcola il raggio per la fila
-          const angle = angleMin + (numero * (angleMax - angleMin)) / maxSeatsPerRow;
-          const cx = centerX + radius * Math.cos(angle);
-          const cy = centerY + radius * Math.sin(angle);
-          creaPosto(fila, numero, cx, cy, disponibile);
-        });
+          const disponibile = !occupatiSet.has(`${fila}-${num}`);
+          creaPosto(fila, num, cx, cy, disponibile);
+        }
       });
     });
 
-  // Nasconde popup cliccando fuori
   document.addEventListener("click", () => {
     popup.style.display = "none";
   });
 })();
 </script>
-
 
 <div class="container text-start bg-body-tertiary p-5">
 <form class="row g-3">
