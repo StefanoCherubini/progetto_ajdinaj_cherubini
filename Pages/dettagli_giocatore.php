@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=ù, initial-scale=1.0">
-    <title>Document</title>
+    <title>Giocatore</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     
     <link rel="stylesheet" type="text/css" href="../CSS/style.css"> 
@@ -127,40 +127,26 @@
               <h4>Data di scadenza del contratto</h4><br>
               <p>'. $row["data_scadenza_contratto"] .'</p>
             </div>
-
-            <div class="col">
-              <h4>Partite giocate</h4><br>
-              <p>'. $row["partite_giocate"] .'</p>
-            </div>
-
         </div>
-        
-            <div class="col">
-              <h4>Minuti giocati</h4><br>
-              <p>'. $row["minuti_giocati"] .'</p>
-            </div>
-
-            <div class="col">
-              <h4>Gol</h4><br>
-              <p>'. $row["gol"] .'</p>
-            </div>
-
-            <div class="col">
-              <h4>Assist</h4><br>
-              <p>'. $row["assist"] .'</p>
-            </div>
-
-            <div class="col">
-              <h4>Cartellini gialli</h4><br>
-              <p>'. $row["cartellini_gialli"] .'</p>
-            </div>
-
-            <div class="col">
-              <h4>Cartellini rossi</h4><br>
-              <p>'. $row["cartellini_rossi"] .'</p>
-            </div>
-          </div>
-        </div>
+        <div>
+             <table class="table">
+              <tr> 
+                  <td>Partite giocate </td>
+                  <td>Minuti giocati </td>
+                  <td>Gol </td>
+                  <td>Assist </td>
+                  <td>Cartellini gialli </td>
+                  <td>Cartellini rossi </td>
+              </tr>
+              <tr>
+                  <td>'. $row["partite_giocate"] .'</td>
+                  <td>'. $row["minuti_giocati"] .'</td>
+                  <td>'. $row["gol"] .' </td>
+                  <td>'. $row["assist"] .' </td>
+                  <td>'. $row["cartellini_gialli"] .' </td>
+                  <td>'. $row["cartellini_rossi"] .' </td>
+              </tr>
+              </table>          
       </div>
        ';
       
