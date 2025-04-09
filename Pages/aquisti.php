@@ -52,6 +52,9 @@
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
               </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
+              </li>
             </ul>
           </div>
           <ul class="nav collapse navbar-collapse justify-content-end text-dark ">
@@ -67,10 +70,25 @@
         </div>
       </nav>
 
-<div class="container bg-body-tertiary p-3">
-  <h2>Seleziona il tuo posto nella Curva Fiesole</h2>
-  <svg id="svgArea" width="900" height="400"></svg>
+<h2 class="container">Seleziona il tuo posto nella Curva Fiesole</h2>
+<div class="svg-container" style="width: 100%; overflow: hidden;">
+  <svg id="svgArea" viewBox="0 0 900 400" style="width: 100%; height: auto;"></svg>
 </div>
+<script> 
+  @media (max-width: 767px) {
+    .svg-container svg {
+      width: 100% !important;  /* Per dispositivi mobili */
+      height: auto !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .svg-container svg {
+      width: 60% !important;  /* Per PC, SVG più ridotto */
+      height: auto !important;
+    }
+  }
+</script>
 <div id="popup"></div>
 
 <script>
@@ -228,6 +246,7 @@
     popup.style.display = "none";
   });
 })();
+
 </script>
 
 <div class="container text-start bg-body-tertiary p-5">

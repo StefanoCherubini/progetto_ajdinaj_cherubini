@@ -1,4 +1,4 @@
-/* strumenti titolo index */
+    /* strumenti titolo index */
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
 
 /* menu index */
@@ -59,7 +59,7 @@ h3{
 
 /* HOVER */
 
-td:hover { 
+.menu td:hover { 
     background-color: rgba(184, 184, 184, 0.719); 
     transform: scale(1.02);
     transition: transform .1s; 
@@ -127,6 +127,37 @@ background:#bab8b8;
 /* marchi */
 .img-thumbnail{
     border: solid rgba(0, 0, 0, 0.362) 1px !important;
+}
+
+/*carosello*/
+
+.carousel-img {
+    height: 80vh; /* o 50vh, dipende da quanto grande lo vuoi */
+    object-fit: cover;
+object-position: center;
+}
+
+@media (max-width: 800px) {
+.carousel-img {
+    height: 40vh; /* più piccolo sui telefoni */
+}
+}
+
+.carousel-caption-custom {
+position: absolute;
+bottom: 0%;
+left: 5%;
+color: white;
+text-shadow: 2px 2px 5px black;
+text-align: center;
+z-index: 10;
+font-size: 3rem;
+}
+
+@media (max-width: 768px) {
+.carousel-caption-custom {
+    font-size: 1.2rem;
+}
 }
 
 /*carrello*/

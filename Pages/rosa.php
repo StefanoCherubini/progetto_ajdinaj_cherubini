@@ -11,7 +11,8 @@
 </head>
 <body>
     <?php  include("../db.php");?>
-<nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
@@ -29,13 +30,16 @@
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
               </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
+              </li>
               <li class="nav-item dropdown fs-4">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Biglietti
                 </a>
                 <ul class="dropdown-menu ">
-                  <li><a class="dropdown-item" href="aquisti.php">Acquista un biglietto</a></li>
-                  <li><a class="dropdown-item" href="ricercaPosti.php">Ricerca posto</a></li>
+                  <li><a class="dropdown-item" href="./aquisti.php">Acquista un biglietto</a></li>
+                  <li><a class="dropdown-item" href="./ricercaPosti.php">Ricerca posto</a></li>
                 </ul>
               </li>
             </ul>
