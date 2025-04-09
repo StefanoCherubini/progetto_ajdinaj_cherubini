@@ -231,37 +231,37 @@
 </script>
 
 <div class="container text-start bg-body-tertiary p-5">
-<form class="row g-3">
+<form class="row g-3" method="post" action="../Controlli/controllo_acquisti.php">
   <div class="col-md-6">
     <label for="inputname" class="form-label">Nome</label>
-    <input type="text" class="form-control" id="inputname">
+    <input type="text" class="form-control" id="inputname" required>
   </div>
   <div class="col-md-6">
     <label for="inputsurname" class="form-label">Cognome</label>
-    <input type="text" class="form-control" id="inputsurname">
+    <input type="text" class="form-control" id="inputsurname" required>
   </div>
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Email</label>
-    <input type="email" class="form-control" id="inputEmail4">
+    <input type="email" class="form-control" id="inputEmail4" required>
   </div>
   <div class="col-md-6">
     <label for="inputPassword4" class="form-label">Password</label>
-    <input type="password" class="form-control" id="inputPassword4">
+    <input type="password" class="form-control" id="inputPassword4" required>
   </div>
 
   <h3>Indirizzo</h3>
 
   <div class="col-4">
     <label for="inputAddress" class="form-label">Via/Piazza</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="via del filarete">
+    <input type="text" class="form-control" id="inputAddress" placeholder="via del filarete"required>
   </div>
   <div class="col-4">
     <label for="inputAddress2" class="form-label">Civico/Interno</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="5/a, interno 38">
+    <input type="text" class="form-control" id="inputAddress2" placeholder="5/a, interno 38"required>
   </div>
   <div class="col-md-4">
     <label for="inputCity" class="form-label">Città</label>
-    <input type="text" class="form-control" id="inputCity">
+    <input type="text" class="form-control" id="inputCity"required>
   </div>
 
   <h3>Posto</h3>
@@ -275,7 +275,7 @@
 
   <div class="col-12">
     <button type="submit" class="btn btn-success">Conferma</button>
-    <button class="btn btn-danger" hfer="./">Annulla</button>
+    <a><button class="btn btn-danger" href="./">Annulla</button></a>
   </div>
  
 </form>
