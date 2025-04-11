@@ -60,10 +60,10 @@
 
 <div class="container " id="rosa"> 
   <br>
-  <h3 >PORTIERI</h3>
-  <br> 
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-        <?php
+      <h3 >PORTIERI</h3>
+      <br> 
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+      <?php
         $sql = "SELECT id, nome, cognome, link_imm FROM giocatori WHERE ruolo = 'Portiere'";
         $result = $connessione->query($sql);
         if ($result->num_rows > 0) {
@@ -82,8 +82,8 @@
         } else {
             echo "<p class='text-center'>Nessun giocatore trovato.</p>";
         }
-        ?>
-      </div>
+      ?>
+       </div>
       
       <br> 
       <h3>DIFENSORI</h3>
@@ -109,7 +109,7 @@
             echo "<p class='text-center'>Nessun giocatore trovato.</p>";
         }
         ?>
-        </div>
+      </div>
 
         <br>
         <h3>CENTROCAMPISTI</h3>

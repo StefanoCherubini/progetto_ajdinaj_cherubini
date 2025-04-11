@@ -54,6 +54,15 @@
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
               </li>
+              <li class="nav-item dropdown fs-4">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Biglietti
+                </a>
+                <ul class="dropdown-menu ">
+                  <li><a class="dropdown-item" href="./aquisti.php">Acquista un biglietto</a></li>
+                  <li><a class="dropdown-item" href="./ricercaPosti.php">Ricerca posto</a></li>
+                </ul>
+              </li>
             </ul>
           </div>
           <ul class="nav collapse navbar-collapse justify-content-end text-dark ">
@@ -69,11 +78,25 @@
         </div>
       </nav>
 
-<div class="container bg-body-tertiary p-3">
-  <h2>Seleziona il tuo posto nella Curva Fiesole</h2>
-  <svg id="svgArea" width="900" height="400"></svg>
+<h2 class="container">Seleziona il tuo posto nella Curva Fiesole</h2>
+<div class="svg-container" style="width: 100%; overflow: hidden;">
+  <svg id="svgArea" viewBox="0 0 900 400" style="width: 100%; height: auto;"></svg>
 </div>
+<script> 
+  @media (max-width: 767px) {
+    .svg-container svg {
+      width: 100% !important;  /* Per dispositivi mobili */
+      height: auto !important;
+    }
+  }
 
+  @media (min-width: 768px) {
+    .svg-container svg {
+      width: 60% !important;  /* Per PC, SVG più ridotto */
+      height: auto !important;
+    }
+  }
+</script>
 <div id="popup"></div>
 
 <script>
@@ -191,6 +214,42 @@
   });
 })();
 </script>
+<br>
+<br>
+<br>
+<br>
 
-</body>
-</html>
+<footer class="container-fluid justify-content-between  py-3" >
+    
+    <div class="row row-cols-1 row-cols-md-3 g-4 row ">
+      <div class="col"> 
+        <ul class="social-list"> 
+          <li> <p> TERMINI E CONDIZIONI </p> </li>
+          <li> <p> PRIVACY  </p> </li>
+          <li> <p> LAVORA CON NOI  </p> </li>
+          <li> <p> RIVENDITA ABBONAMENTO </p> </li>
+          <li> <p> DIRITTI DI GARANZIA </p> </li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <div class="social-cont ">    
+          <ul class="social-list">
+          <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/facebook-icon.png"  title="facebook" alt="Facebook icon"></a></li>
+          <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/instagram-icon.png" title="Instagram" alt="Instagram icon"></a></li>
+          <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/pinterest-icon.png" title="pinterest" alt="Instagram icon"></a></li>
+          </ul>
+        </div> 
+      </div>
+
+        <div class="col"> 
+          <ul class="social-list"> 
+            <li> <p> sito realizzato da </p> </li>
+            <li> <p> Stefano Cherubini © 2023 </p> </li>
+          </ul>
+        </div>
+	</footer>
+	
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  </body>
+</html> 

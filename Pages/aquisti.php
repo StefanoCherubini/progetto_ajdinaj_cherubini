@@ -55,6 +55,15 @@
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
               </li>
+              <li class="nav-item dropdown fs-4">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Biglietti
+                </a>
+                <ul class="dropdown-menu ">
+                  <li><a class="dropdown-item" href="./aquisti.php">Acquista un biglietto</a></li>
+                  <li><a class="dropdown-item" href="./ricercaPosti.php">Ricerca posto</a></li>
+                </ul>
+              </li>
             </ul>
           </div>
           <ul class="nav collapse navbar-collapse justify-content-end text-dark ">
@@ -72,7 +81,7 @@
 
 <h2 class="container">Seleziona il tuo posto nella Curva Fiesole</h2>
 <div class="svg-container" style="width: 100%; overflow: hidden;">
-  <svg id="svgArea" viewBox="0 0 900 400" style="width: 100%; height: auto;"></svg>
+  <svg id="svgArea" viewBox="0 0 950 400" style="width: 100%; height: auto;"></svg>
 </div>
 <script> 
   @media (max-width: 767px) {

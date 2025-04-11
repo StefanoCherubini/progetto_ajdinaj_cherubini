@@ -7,14 +7,24 @@
 
 
 .pag2{
-    background-color: rgba(42, 6, 53, 0.751);
+    background-color: rgba(35, 6, 44, 0.942);
 }
 
+h6{
+    font-size: 22px;
+}
+
+h3{
+    font-size: 32px;
+}
+
+/*navabar*/
 .nav-item{
     font-family: 'Work Sans', sans-serif;
     font-size:  22px;
 }
 
+/*menu*/
 .menu a{
     font-size: 25px;
 }
@@ -25,24 +35,22 @@
     margin: auto;
 }
 
+
+/* HOVER */
+
+.menu td:hover { 
+    background-color: rgba(184, 184, 184, 0.719); 
+    transform: scale(1.02);
+    transition: transform .1s; 
+}
+
+
+/*table*/
 table,td {
     margin: auto;
     border: 2px collapse rgba(156, 24, 24, 0.796) ;
 }
 
-.strumenti {
-    font-size:  40px;
-    font-family: 'Work Sans', sans-serif;
-}
-
-
-h6{
-    font-size: 22px;
-}
-
-h3{
-    font-size: 32px;
-}
 
 /*card */ 
 .card-ts p{
@@ -56,14 +64,6 @@ h3{
 }
 
 
-
-/* HOVER */
-
-.menu td:hover { 
-    background-color: rgba(184, 184, 184, 0.719); 
-    transform: scale(1.02);
-    transition: transform .1s; 
-}
 
 
 
@@ -129,12 +129,18 @@ background:#bab8b8;
     border: solid rgba(0, 0, 0, 0.362) 1px !important;
 }
 
-/*carosello*/
+/*card img */
+.card-news{
+    height: 35vh; /* o 50vh, dipende da quanto grande lo vuoi */
+    object-fit: cover;
+    object-position: center;
+}
 
+/*carosello*/
 .carousel-img {
     height: 80vh; /* o 50vh, dipende da quanto grande lo vuoi */
     object-fit: cover;
-object-position: center;
+    object-position: center;
 }
 
 @media (max-width: 800px) {
@@ -160,11 +166,6 @@ font-size: 3rem;
 }
 }
 
-/*carrello*/
-
-.carrello img{
-    margin: auto;
-}
 
 /*form */
 
