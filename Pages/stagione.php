@@ -54,90 +54,145 @@
           </ul>
         </div>
       </nav>
-  <div class="container">
+  <div class="container  mb-3">
 
         <br />
         <br />
-        <h3 class="text-start" id="stagione"> STAGIONE </h3>
+        <h3 class="text-start"> STAGIONE </h3>
         <p class="container fs-5"> Tutte le partite della stagione. </p>
-
-        <div class="row text-center p-3 ">
-        <?php 
+         <div class="container mb-3">
+            <!-- Dropdown per selezionare la competizione -->
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="competizioneDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Filtra per competizione
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="competizioneDropdown">
+                    <li><a class="dropdown-item" href="?competizione=Serie A">Serie A</a></li>
+                    <li><a class="dropdown-item" href="?competizione=Conference League">UEFA Conference League</a></li>
+                </ul>
+             </div>
+         </div>
+      <div class="row text-center p-3 ">
+    <?php 
         include("../db.php");
 
-        $sql = " SELECT p.data_partita,
-                p.competizione,
-                sc.nome AS squadra_casa,
-                sc.immagine AS immagine_casa,
-                st.nome AS squadra_trasferta,
-                st.immagine AS immagine_trasferta,
-                p.risultato_finale,
-                p.marcatori_casa,
-                p.marcatori_trasferta,
-                p.calci_rigore,
-                p.risultato_rigori
-            FROM Partita p
-            JOIN squadra sc ON p.id_squadra_casa = sc.id_squadra
-            JOIN squadra st ON p.id_squadra_trasferta = st.id_squadra;
-            ";
-        $result = $connessione->query($sql);
-        
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
+        $competizione = isset($_GET['competizione']) ? $_GET['competizione'] : 'Serie A' ; // Seleziona 'all' per tutte le competizioni
 
-                $squadra_casa = htmlspecialchars($row["squadra_casa"]);
-                $squadra_trasferta = htmlspecialchars($row["squadra_trasferta"]);
-                 
-                echo '
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card rounded shadow bg-dark text-white h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-center mb-2">
-                                <img src="'. $row["immagine_casa"] .'" alt="' . $squadra_casa . '" width="40" height="40" class="me-2 rounded">
-                                <h5 class="mb-0 fw-bold fs-5">' . $squadra_casa . '</h5>
-                                <span class="mx-2">vs</span>
-                                <h5 class="mb-0 fw-bold fs-5">' . $squadra_trasferta . '</h5>
-                                <img src="'. $row["immagine_trasferta"] .'" alt="' . $squadra_trasferta . '" width="40" height="40" class="ms-2 rounded">
-                            </div>
-                         <h6 class="text-center text-white small mb-3">' . date("d M Y", strtotime($row["data_partita"])) . ' - ' . htmlspecialchars($row["competizione"]) . '</h6>
+        $sql = "SELECT p.data_partita,
+              p.competizione,
+              sc.nome AS squadra_casa,
+              sc.immagine AS immagine_casa,
+              st.nome AS squadra_trasferta,
+              st.immagine AS immagine_trasferta,
+              p.risultato_finale,
+              p.marcatori_casa,
+              p.marcatori_trasferta,
+              p.calci_rigore,
+              p.risultato_rigori
+          FROM Partita p
+          JOIN squadra sc ON p.id_squadra_casa = sc.id_squadra
+          JOIN squadra st ON p.id_squadra_trasferta = st.id_squadra"; // ← chiusura corretta
 
-                        <p class="text-center fs-4 fw-bold">' . htmlspecialchars($row["risultato_finale"]) . '</p>
+        if (!empty($competizione)) {
+          $competizione = $connessione->real_escape_string($competizione);
+          $sql .= " WHERE p.competizione = '$competizione'";
+        }
 
-                        <div class="row text-start mt-3">
-                            <div class="col">
-                                ' . nl2br(htmlspecialchars($row["marcatori_casa"])) . '<br />' . '
-                            </div>
-                            <div class="col">
-                                ' . nl2br(htmlspecialchars($row["marcatori_trasferta"])) . '<br />' . '
-                            </div>
-                        </div>';
+  ?>
+  <div class="container">
+  <div class="row">
+    <!-- Colonna sinistra: card delle partite (occupano 8 colonne in totale) -->
+    <div class="col-lg-8">
+      <div class="row">
+        <?php
+                $result = $connessione->query($sql);
 
-            // Mostra i rigori solo se il campo esiste e non è vuoto
-            if (isset($row["rigori"]) && $row["rigori"] && !empty($row["risultato_rigori"])) {
-                echo '
-                        <div class="alert alert-warning p-2 mt-3 text-center">
-                            ' . htmlspecialchars($row["risultato_rigori"]) . '
-                        </div>';
-            }
+
+        // Contatore per gestire righe da 2 card
+        $i = 0;
+        while ($row = $result->fetch_assoc()) {
+          
+          $squadra_casa =  htmlspecialchars($row["squadra_casa"]);
+          $squadra_trasferta =  htmlspecialchars($row["squadra_trasferta"]);
+
+            if ($i % 2 === 0 && $i !== 0) echo '</div><div class="row">'; // nuova riga ogni 2 card
 
             echo '
+            <div class="col-md-6 mb-4">
+              <div class="card rounded shadow bg-dark text-white h-100">
+                <div class="card-body">
+                  <div class="d-flex align-items-center justify-content-center mb-2">
+                    <img src="'. $row["immagine_casa"] .'" alt="' . $squadra_casa . '" width="40" height="40" class="me-2 rounded">
+                    <h5 class="mb-0 fw-bold fs-5">' . $squadra_casa . '</h5>
+                    <span class="mx-2">vs</span>
+                    <h5 class="mb-0 fw-bold fs-5">' . $squadra_trasferta . '</h5>
+                    <img src="'. $row["immagine_trasferta"] .'" alt="' . $squadra_trasferta . '" width="40" height="40" class="ms-2 rounded">
+                  </div>
+                  <h6 class="text-center text-white small mb-3">' . date("d M Y", strtotime($row["data_partita"])) . ' - ' . htmlspecialchars($row["competizione"]) . '</h6>
+                  <p class="text-center fs-4 fw-bold">' . htmlspecialchars($row["risultato_finale"]) . '</p>
+                  <div class="row text-start mt-3">
+                    <div class="col">
+                      ' . nl2br(htmlspecialchars($row["marcatori_casa"])) . '
                     </div>
+                    <div class="col">
+                      ' . nl2br(htmlspecialchars($row["marcatori_trasferta"])) . '
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>';
-        }
-        } else {
-        echo '<p class="text-white">Nessuna partita trovata.</p>';
+            $i++;
         }
         ?>
-
-        <br />
-        <br />
-        <br />
-        <br />
-
+      </div>
     </div>
-    
+
+    <!-- Colonna destra: classifica -->
+    <div class="col-lg-4">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-sm bg-white text-dark">
+          <thead class="table-primary text-center">
+            <tr>
+              <th>Squadra</th>
+              <th>Pt</th>
+              <th>G</th>
+              <th>V</th>
+              <th>P</th>
+              <th>S</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <?php
+            $sql_classifica = "SELECT s.nome, c.punti_tot, c.partite_giocate, c.vittorie, c.pareggi, c.sconfitte
+                               FROM classifica c
+                               JOIN squadra s ON c.id_squadra = s.id_squadra
+                               ORDER BY c.punti_tot DESC";
+            $res_classifica = $connessione->query($sql_classifica);
+            while ($row = $res_classifica->fetch_assoc()) {
+                echo "<tr>
+                        <td>{$row['nome']}</td>
+                        <td>{$row['punti_tot']}</td>
+                        <td>{$row['partite_giocate']}</td>
+                        <td>{$row['vittorie']}</td>
+                        <td>{$row['pareggi']}</td>
+                        <td>{$row['sconfitte']}</td>
+                      </tr>";
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+</div>
+
+ <br>
+ <br>
+
+
+  </div>
+
+</div>
 <footer class="container-fluid justify-content-between  py-3 ">
     
     <div class="row row-cols-1 row-cols-md-3 g-4 row ">
