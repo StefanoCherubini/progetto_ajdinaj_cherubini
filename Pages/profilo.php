@@ -4,16 +4,20 @@ include("../db.php"); // connessione al DB
 
 // Se l'utente è loggato
 if (isset($_SESSION['email'])) {
-    $email = $_SESSION['email'];
+  $email = $_SESSION['email'];
 
-    $query = "SELECT cognome, nome, data_nascita, sesso, indirizzo, civico, citta, username, email, abbonato, fila, num_posto
-              FROM utenti WHERE email = ?";
-    $stmt = mysqli_prepare($connessione, $query);
-    mysqli_stmt_bind_param($stmt, "s", $email);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $utente = mysqli_fetch_assoc($result);
+  $query = "SELECT id_utenti, cognome, nome, data_nascita, sesso, indirizzo, civico, citta, username, email, abbonato, fila, num_posto
+            FROM utenti WHERE email = ?";
+  $stmt = mysqli_prepare($connessione, $query);
+  mysqli_stmt_bind_param($stmt, "s", $email);
+  mysqli_stmt_execute($stmt);
+  $result = mysqli_stmt_get_result($stmt);
+  $utente = mysqli_fetch_assoc($result);
+
+  // Aggiungi l'id nella sessione
+  $_SESSION['id_utenti'] = $utente['id_utenti'];
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="it">
@@ -26,7 +30,7 @@ if (isset($_SESSION['email'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 </head>
-<body class="pag2">
+<body>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
@@ -73,28 +77,38 @@ if (isset($_SESSION['email'])) {
         </div>
       </nav>
 
-  <div class="mt-5">
+  <div class="mt-5 container">
     <?php if (isset($utente)) : ?>
-      <div class="card mx-auto" style="max-width: 600px;">
-        <div class="card-body">
-          <h3 class="card-title text-center mb-4">Profilo utente</h3>
+      <h2 class="text-center mb-4">Profilo Utente</h2>
+      <div class="mx-auto p-3 " style="max-width: 600px;">
+      
+      <?php
+      foreach ($utente as $chiave => $valore) {
+          if (in_array($chiave, ['password', 'id_utenti'])) continue; // non mostrare password né id
 
-          <?php foreach ($utente as $chiave => $valore): ?>
-            <p class="mb-2">
-              <strong><?= ucfirst(str_replace("_", " ", $chiave)) ?>:</strong>
-              <?= htmlspecialchars($valore ?: '—') ?>
-            </p>
-          <?php endforeach; ?>
+          if ($chiave === 'sesso') {
+              $valore = ($valore === 'M') ? 'Uomo' : (($valore === 'F') ? 'Donna' : $valore);
+          }
 
-          <div class="text-center mt-4">
-            <a href="../controlli/controllo_logout.php" class="btn btn-outline-danger">Logout</a>
-          </div>
+          // Se non abbonato, non mostrare fila e num_posto
+          if ($utente['abbonato'] == 0 && in_array($chiave, ['fila', 'num_posto'])) {
+              continue;
+          }
+
+        echo "<p class='h5 mb-3'><strong>" . ucfirst(str_replace("_", " ", $chiave)) . ":</strong> " . htmlspecialchars($valore ?: '—') . "</p>";
+      }
+    ?>
+
+
+        <div class="text-center mt-4">
+          <a href="../controlli/controllo_logout.php" class="btn btn-outline-danger">Logout</a>
         </div>
       </div>
+
     <?php else: ?>
       <!-- Form login se non loggato -->
       <form class="form-signin w-100 m-auto mt-5" action="../Controlli/controllo_login.php" method="POST">
-        <h1 class="h3 mb-3 fw-normal">Accedi</h1>
+        <h1 class="h3 mb-3 fw-normal text-white">Accedi al profilo</h1>
         <div class="form-floating">
           <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
           <label for="floatingInput">Indirizzo Email</label>
@@ -105,7 +119,7 @@ if (isset($_SESSION['email'])) {
           <label for="floatingPassword">Password</label>
         </div>
         <br>
-        <button class="btn btn-dark w-100 py-2" type="submit">Accedi</button>
+        <button class="btn btn-secondary  w-100 py-2" type="submit">Accedi</button>
       </form>
     <?php endif; ?>
   </div>

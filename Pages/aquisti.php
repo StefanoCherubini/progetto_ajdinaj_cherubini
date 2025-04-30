@@ -32,7 +32,20 @@
   </style>
 </head>
 <body>
-<?php  include("../db.php"); ?>
+  <?php 
+  session_start();  // Avvio della sessione
+
+  include("../db.php");
+
+
+  if (!isset($_SESSION['id_utenti'])) {
+    echo '<div style="padding: 1em; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+        L\'utente per acquistare i biglietti deve <a href="profilo.php" style="color: #721c24; text-decoration: underline;">accedere</a>.
+    </div>';
+    // Puoi anche interrompere qui il codice per evitare che venga eseguito altro
+    exit;
+  }
+  ?>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
