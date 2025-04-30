@@ -1,16 +1,33 @@
+<?php
+session_start();
+include("../db.php"); // connessione al DB
+
+// Se l'utente è loggato
+if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
+
+    $query = "SELECT cognome, nome, data_nascita, sesso, indirizzo, civico, citta, username, email, abbonato, fila, num_posto
+              FROM utenti WHERE email = ?";
+    $stmt = mysqli_prepare($connessione, $query);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $utente = mysqli_fetch_assoc($result);
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
-    <head> 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PROFILO</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="../CSS/style.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PROFILO</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../CSS/style.css"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 </head>
 <body class="pag2">
-    
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
@@ -45,7 +62,7 @@
           </div>
           <ul class="nav collapse navbar-collapse justify-content-end text-dark ">
             <li class="nav-item ">
-            <a href="./" class="btn btn-dark position-relative">
+            <a href="./profilo.php" class="btn btn-dark position-relative">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
@@ -56,41 +73,44 @@
         </div>
       </nav>
 
-      <br>
-      <br>
-      <br>
-     
-          
-        <form class="form-signin w-100 m-auto" action="../Controlli/controllo_login.php" method="POST">
-          <h1 class="h3 mb-3 fw-normal">Accedi </h1>
-      
-          <div class="form-floating">
-            <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-            <label for="floatingInput">Indirizzo Email </label>
+  <div class="mt-5">
+    <?php if (isset($utente)) : ?>
+      <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">Profilo utente</h3>
+
+          <?php foreach ($utente as $chiave => $valore): ?>
+            <p class="mb-2">
+              <strong><?= ucfirst(str_replace("_", " ", $chiave)) ?>:</strong>
+              <?= htmlspecialchars($valore ?: '—') ?>
+            </p>
+          <?php endforeach; ?>
+
+          <div class="text-center mt-4">
+            <a href="../controlli/controllo_logout.php" class="btn btn-outline-danger">Logout</a>
           </div>
+        </div>
+      </div>
+    <?php else: ?>
+      <!-- Form login se non loggato -->
+      <form class="form-signin w-100 m-auto mt-5" action="../Controlli/controllo_login.php" method="POST">
+        <h1 class="h3 mb-3 fw-normal">Accedi</h1>
+        <div class="form-floating">
+          <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+          <label for="floatingInput">Indirizzo Email</label>
+        </div>
+        <br>
+        <div class="form-floating">
+          <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+        </div>
+        <br>
+        <button class="btn btn-dark w-100 py-2" type="submit">Accedi</button>
+      </form>
+    <?php endif; ?>
+  </div>
 
-          <br> 
-
-          <div class="form-floating">
-            <input type="password" name="password"class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
-          </div>
-      
-              
-         <br> 
-          <button class="btn btn-dark w-100 py-2" type="submit">Accedi</button>
-        </form>
-          <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-      
-          
-      
-  <br> 
-  <br> 
-  <br> 
-
-   
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-  </body>
-</html> 
+  <!-- Script Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

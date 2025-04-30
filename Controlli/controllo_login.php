@@ -1,32 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FiesoleNews</title>
-</head>
-<body>
 <?php
-    include("../db.php");
+        session_start(); // IMPORTANTE!
+        include("../db.php");
 
-    $query = "SELECT *
-              FROM utenti 
-              WHERE email = '$_POST[email]' and password = '$_POST[password]' ";
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
-    $result = mysqli_query($connessione,$query)
-    or die("Errore " . mysqli_error($connessione) . mysqli_errno($connessione));
+        // Usa i prepared statement per sicurezza (eviti SQL injection)
+        $stmt = $connessione->prepare("SELECT * FROM utenti WHERE email = ? AND password = ?");
+        $stmt->bind_param("ss", $email, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    if(mysqli_num_rows($result) > 0){
-       
-    }
-    else{
-        header("Location: ../Pages/profilo.php?ERROR=true");
-    }
-
-    ?>
-        <h2>BENVENUTO </h2>
-       <p>per tornare alla home</p>
-       <a href="index.php"><button>HOME</button></a>
-</body>
-</html>
+        if ($row = $result->fetch_assoc()) {
+            // Login riuscito: salva in sessione
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['nome'] = $row['nome']; // se c'è
+            header("Location: ../Pages/profilo.php");
+            exit;
+        } else {
+            header("Location: ../Pages/profilo.php?ERROR=true");
+            exit;
+        }
+?>
