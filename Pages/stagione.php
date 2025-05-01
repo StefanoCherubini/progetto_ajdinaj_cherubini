@@ -14,19 +14,19 @@
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
-                  <a class="navbar-brand" href="index.html">
+                  <a class="navbar-brand" href="../index.php">
                     <img src="../Images/logo.png" width="40" height="40">
                   </a>
                 </div>
               </nav>
-            <a class="navbar-brand" href="../index.html">FIESOLE NEWS</a>
+            <a class="navbar-brand" href="../index.php">FIESOLE NEWS</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item  fs-4">
-                <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
               </li>
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
@@ -120,7 +120,7 @@
             echo '
             <div class="col-md-6 mb-4">
               <div class="card rounded shadow bg-dark text-white h-100">
-                <div class="card-body">
+                <div class="card-body" id="card-body-viola">
                   <div class="d-flex align-items-center justify-content-center mb-2">
                     <img src="'. $row["immagine_casa"] .'" alt="' . $squadra_casa . '" width="40" height="40" class="me-2 rounded">
                     <h5 class="mb-0 fw-bold fs-5">' . $squadra_casa . '</h5>

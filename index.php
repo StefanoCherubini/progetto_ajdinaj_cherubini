@@ -14,19 +14,19 @@
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
-                  <a class="navbar-brand" href="index.html">
+                  <a class="navbar-brand" href="index.php">
                     <img src="Images/logo.png" width="40" height="40">
                   </a>
                 </div>
               </nav>
-            <a class="navbar-brand" href="index.html">FIESOLE NEWS</a>
+            <a class="navbar-brand" href="index.php">FIESOLE NEWS</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item  fs-4">
-                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                <a class="nav-link active" aria-current="page" href="index.php">Home</a>
               </li>
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="./News/primaPagina.html">News</a>
@@ -126,24 +126,63 @@
 <div class="container ">
 
   <div class="row ">
-
-    <!-- Ultima Partita -->
-    <div class="col-md-6 mb-3">
-      <h3 class="text-white">Ultima Partita</h3>
-      <div class="card shadow-sm h-100">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h5 class="text-white">Fiorentina 2 - 1 Roma</h5>
-            <p class="mb-0">Marcatori: Belotti 45’, Nico González 78’</p>
-          </div>
-          <span class="badge bg-success">Serie A - 32ª giornata</span>
+    <?php
+    include("./db.php"); // connessione DB
+    
+    $sql = "
+    SELECT 
+      P.*,
+      SC.nome AS nome_casa,
+      SC.immagine AS immagine_casa,
+      ST.nome AS nome_trasferta,
+      ST.immagine AS immagine_trasferta
+    FROM Partita P
+    INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
+    INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
+    WHERE SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina'
+    ORDER BY P.data_partita DESC
+    LIMIT 1
+      ";
+  
+    
+    $result = $connessione->query($sql);
+    
+    if ($result && $row = $result->fetch_assoc()) {
+      $squadra_casa = htmlspecialchars($row["nome_casa"]);
+      $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
+      $immagine_casa = htmlspecialchars($row["immagine_casa"]);
+      $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
+      $risultato = htmlspecialchars($row["risultato_finale"]);
+      $competizione = htmlspecialchars($row["competizione"]);
+      $data = date("d M Y", strtotime($row["data_partita"]));
+      $marcatori_casa = nl2br(htmlspecialchars($row["marcatori_casa"]));
+      $marcatori_trasferta = nl2br(htmlspecialchars($row["marcatori_trasferta"]));
+  
+        // Componi stringa marcatori
+        $marcatori = [];
+        if (!empty($marcatori_casa)) $marcatori[] = $marcatori_casa;
+        if (!empty($marcatori_trasferta)) $marcatori[] = $marcatori_trasferta;
+        $marcatori_testo = implode(', ', $marcatori);
+    ?>
+        <div class="col-md-6 mb-3">
+            <h3 class="text-white">Ultima Partita</h3>
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5><?= "$squadra_casa $risultato $squadra_trasferta" ?></h5>
+                        <p class="mb-0">Marcatori: <?= htmlspecialchars($marcatori_testo) ?></p>
+                    </div>
+                    <span class="badge bg-success"><?= "$competizione" ?></span>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-
+    <?php
+    }
+    ?>
+    
     <!-- Prossima Partita -->
     <div class="col-md-6 mb-3">
-      <h3>Prossima Partita</h3>
+      <h3 class="text-white">Prossima Partita</h3>
       <div class="card shadow-sm h-100">
         <div class="card-body d-flex justify-content-between align-items-center">
           <div>

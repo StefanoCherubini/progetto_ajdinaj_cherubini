@@ -16,19 +16,19 @@
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
-                  <a class="navbar-brand" href="../index.html">
+                  <a class="navbar-brand" href="../index.php">
                     <img src="../Images/logo.png" width="40" height="40">
                   </a>
                 </div>
               </nav>
-            <a class="navbar-brand" href="../index.html">FIESOLE NEWS</a>
+            <a class="navbar-brand" href="../index.php">FIESOLE NEWS</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item  fs-4">
-                <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
               </li>
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
@@ -73,7 +73,7 @@
                         <div class="card rounded card-ts h-100 " style="width: 18rem;">
                             <div class="position-relative"></div>
                             <a href="./dettagli_giocatore.php?id='. $row['id'] .'"><img src="' . $row["link_imm"] . '" class="card-img-top rounded"></a> 
-                            <div class="card-body ">
+                            <div class="card-body" id="card-body-viola">
                                 <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
                             </div>
                         </div>

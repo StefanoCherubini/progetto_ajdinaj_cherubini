@@ -33,37 +33,37 @@
 </head>
 <body>
   <?php 
-  session_start();  // Avvio della sessione
+    session_start();  // Avvio della sessione
 
-  include("../db.php");
+    include("../db.php");
 
 
-  if (!isset($_SESSION['id_utenti'])) {
-    echo '<div style="padding: 1em; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
-        L\'utente per acquistare i biglietti deve <a href="profilo.php" style="color: #721c24; text-decoration: underline;">accedere</a>.
-    </div>';
-    // Puoi anche interrompere qui il codice per evitare che venga eseguito altro
-    exit;
-  }
+    if (!isset($_SESSION['id_utenti'])) {
+      echo '<div style="padding: 1em; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+          L\'utente per acquistare i biglietti deve <a href="profilo.php" style="color: #721c24; text-decoration: underline;">accedere</a>.
+      </div>';
+      // Puoi anche interrompere qui il codice per evitare che venga eseguito altro
+      exit;
+    }
   ?>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
-                  <a class="navbar-brand" href="../index.html">
+                  <a class="navbar-brand" href="../index.php">
                     <img src="../Images/logo.png" width="40" height="40">
                   </a>
                 </div>
               </nav>
-            <a class="navbar-brand" href="../index.html">FIESOLE NEWS</a>
+            <a class="navbar-brand" href="../index.php">FIESOLE NEWS</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item  fs-4">
-                <a class="nav-link active" aria-current="page" href="../index.html">Home</a>
+                <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
               </li>
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
