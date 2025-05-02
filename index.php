@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
     <head> 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./CSS/style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="icon" type="image/x-icon" href="./Images/logo.png">
+    <link rel="icon" type="image/x-icon" href="./Images/logo.png">  
   </head>
   <body class="pag2"> 
       <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
@@ -55,20 +55,28 @@
         </div>
       </nav>
 
-      <div class="menu"> 
-        <table class="table menu container"> 
-          <tr class="">
-            <td> <a href="#novita" class="link-offset-2 link-underline link-underline-opacity-0 text-dark "> Novità   </a> </td>
-            <td> <a href="./Pages/stagione.php" class="link-offset-2 link-underline link-underline-opacity-0 text-dark "> Stagione  </a> </td>
-            <td> <a href="./Pages/rosa.php" class="link-offset-2 link-underline link-underline-opacity-0 text-dark "> Rosa </a> </td>
-          </tr>
-        </table>
-      </div>
+      <!-- NAVBAR SECONDARIA -->
+      <nav class="bg-light border-top border-bottom shadow-sm">
+        <div class="container">
+          <ul class="nav justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link text-dark fs-7 " href="#novita">Novità</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark fs-7 " href="./Pages/stagione.php">Stagione</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark fs-7 " href="./Pages/rosa.php">Rosa</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
     <br /> 
 
+    <!-- CAROSELLO NOVITA -->
     <h3 class="container text-start text-white" id="novita"> Novità </h3>
     <br />
-    
     <div id="carouselExampleInterval" class="carousel slide container" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="5000">
@@ -100,104 +108,108 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
+
     <br />
-  </div>
-</div>
 
-<div aria-live="polite" aria-atomic="true" class="position-relative">
-  <div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header">
-        <img src="Images/logo.png" class="rounded me-2" style="width: 30px; height: 30px; color: blueviolet;">
-        <strong class="me-auto">Fiesole News</strong>
-        <small>adesso</small>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      <!-------TOAST ------->
+      <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+              <img src="Images/logo.png" class="rounded me-2" style="width: 30px; height: 30px; color: blueviolet;">
+              <strong class="me-auto">Fiesole News</strong>
+              <small>adesso</small>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+              Se hai bisogno di aiuto contattaci!
+              <br>  
+              <a target="_blank" href="#" class="social-list"><img src="https://www.chefstudio.it/img/instagram-icon.png" title="Instagram" alt="Instagram icon" style="width: 30px; height: 30px; filter: brightness(0) saturate(100%) invert(17%) sepia(94%) saturate(6440%) hue-rotate(265deg) brightness(95%) contrast(101%);"></a>
+              <a target="_blank" href="#" class="social-list"><img src="./Images/icons8-whatsapp-50.png" title="Whatsapp" alt="Whatsapp icon" style="width: 20px; height: 20px; filter: brightness(0) saturate(100%) invert(17%) sepia(94%) saturate(6440%) hue-rotate(265deg) brightness(95%) contrast(101%);"></a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="toast-body">
-        Se hai bisogno di aiuto contattaci!
-        <br>  
-        <a target="_blank" href="#" class="social-list"><img src="https://www.chefstudio.it/img/instagram-icon.png" title="Instagram" alt="Instagram icon" style="width: 30px; height: 30px; filter: brightness(0) saturate(100%) invert(17%) sepia(94%) saturate(6440%) hue-rotate(265deg) brightness(95%) contrast(101%);"></a>
-        <a target="_blank" href="#" class="social-list"><img src="./Images/icons8-whatsapp-50.png" title="Whatsapp" alt="Whatsapp icon" style="width: 20px; height: 20px; filter: brightness(0) saturate(100%) invert(17%) sepia(94%) saturate(6440%) hue-rotate(265deg) brightness(95%) contrast(101%);"></a>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="container ">
+  <div class="container ">
+    <div class="row ">
+      <?php
+        include("./db.php"); // connessione DB
+        
+        $sql = "
+        SELECT 
+          P.*,
+          SC.nome AS nome_casa,
+          SC.immagine AS immagine_casa,
+          ST.nome AS nome_trasferta,
+          ST.immagine AS immagine_trasferta
+        FROM Partita P
+        INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
+        INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
+        WHERE SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina'
+        ORDER BY P.data_partita DESC
+        LIMIT 1
+          ";
+      
+        
+        $result = $connessione->query($sql);
+        
+        if ($result && $row = $result->fetch_assoc()) {
+          $squadra_casa = htmlspecialchars($row["nome_casa"]);
+          $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
+          $immagine_casa = htmlspecialchars($row["immagine_casa"]);
+          $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
+          $risultato = htmlspecialchars($row["risultato_finale"]);
+          $competizione = htmlspecialchars($row["competizione"]);
+          setlocale(LC_TIME, 'it_IT.UTF-8');
+          $data = strftime("%e %B %Y", strtotime($row["data_partita"]));
+          $marcatori_casa = nl2br(htmlspecialchars($row["marcatori_casa"]));
+          $marcatori_trasferta = nl2br(htmlspecialchars($row["marcatori_trasferta"]));
+      
+            // Componi stringa marcatori
+            $marcatori = [];
+            if (!empty($marcatori_casa)) $marcatori[] = $marcatori_casa;
+            if (!empty($marcatori_trasferta)) $marcatori[] = $marcatori_trasferta;
+            $marcatori_testo = implode(', ', $marcatori);
+        }
+      ?>
 
-  <div class="row ">
-    <?php
-    include("./db.php"); // connessione DB
-    
-    $sql = "
-    SELECT 
-      P.*,
-      SC.nome AS nome_casa,
-      SC.immagine AS immagine_casa,
-      ST.nome AS nome_trasferta,
-      ST.immagine AS immagine_trasferta
-    FROM Partita P
-    INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
-    INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
-    WHERE SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina'
-    ORDER BY P.data_partita DESC
-    LIMIT 1
-      ";
-  
-    
-    $result = $connessione->query($sql);
-    
-    if ($result && $row = $result->fetch_assoc()) {
-      $squadra_casa = htmlspecialchars($row["nome_casa"]);
-      $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
-      $immagine_casa = htmlspecialchars($row["immagine_casa"]);
-      $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
-      $risultato = htmlspecialchars($row["risultato_finale"]);
-      $competizione = htmlspecialchars($row["competizione"]);
-      $data = date("d M Y", strtotime($row["data_partita"]));
-      $marcatori_casa = nl2br(htmlspecialchars($row["marcatori_casa"]));
-      $marcatori_trasferta = nl2br(htmlspecialchars($row["marcatori_trasferta"]));
-  
-        // Componi stringa marcatori
-        $marcatori = [];
-        if (!empty($marcatori_casa)) $marcatori[] = $marcatori_casa;
-        if (!empty($marcatori_trasferta)) $marcatori[] = $marcatori_trasferta;
-        $marcatori_testo = implode(', ', $marcatori);
-    ?>
-        <div class="col-md-6 mb-3">
-            <h3 class="text-white">Ultima Partita</h3>
-            <div class="card shadow-sm h-100">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5><?= "$squadra_casa $risultato $squadra_trasferta" ?></h5>
-                        <p class="mb-0">Marcatori: <?= htmlspecialchars($marcatori_testo) ?></p>
+      <!-- Ultima Partita -->
+          <div class="col-12 col-md-6 mb-3">
+            <h3 class="text-white mb-3">Ultima Partita</h3>
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-center  flex-wrap">
+                  <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
+                  <span class="fw-bold fs-5"><?= $squadra_casa ?></span>
+                  <span class="mx-2 fs-5"><?= $risultato ?></span>
+                  <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
+                  <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
+                </div>
+                <p class="mb-1"><?= $data ?></p>
+                <p class="mb-2">Marcatori: <?= $marcatori_testo ?></p>
+                <span class="badge bg-success"><?= $competizione ?></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Prossima Partita -->
+          <div class="col-12 col-md-6 mb-3">
+            <h3 class="text-white mb-3">Prossima Partita</h3>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5>Lecce vs Fiorentina</h5>
+                    <p class="mb-1">Domenica 5 Maggio 2025 - Ore 18:00</p>
+                    <small class="text-muted">Stadio Via del Mare (Trasferta)</small>
+                    <div class="mt-2">
+                        <span class="badge bg-primary">Serie A - 33ª giornata</span>
                     </div>
-                    <span class="badge bg-success"><?= "$competizione" ?></span>
                 </div>
             </div>
-        </div>
-    <?php
-    }
-    ?>
-    
-    <!-- Prossima Partita -->
-    <div class="col-md-6 mb-3">
-      <h3 class="text-white">Prossima Partita</h3>
-      <div class="card shadow-sm h-100">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <div>
-            <h5>Lecce vs Fiorentina</h5>
-            <p class="mb-0">Domenica 5 Maggio 2025 - Ore 18:00</p>
-            <small class="text-muted">Stadio Via del Mare (Trasferta)</small>
           </div>
-          <span class="badge bg-primary">Serie A - 33ª giornata</span>
-        </div>
-      </div>
+
     </div>
-
   </div>
-
-</div>
 
 <br />
 <br />
