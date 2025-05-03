@@ -11,7 +11,7 @@
 </head>
 <body class="pag2">
     
-<nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
@@ -53,51 +53,57 @@
         </div>
       </nav>
 
-      <br>
+      <br />
       <?php
-        include("../db.php");
+      include("../db.php");
+              session_start();
 
-        $posti = [];
-        if (isset($_POST['fila']) && isset($_POST['numero'])) {
-            for ($i = 0; $i < count($_POST['fila']); $i++) {
-                $fila = strtoupper(trim($_POST['fila'][$i]));
-                $numero = intval($_POST['numero'][$i]);
+              if (!isset($_SESSION['id_utenti'])) {
+                  die("Errore: utente non autenticato.");
+              }
+              $id_utenti = $_SESSION['id_utenti'];
 
-                if (!empty($fila) && $numero > 0) {
-                    // Determina il settore
-                    $settore = in_array($fila, ['A', 'B', 'C']) ? 'GIU' : 'SU';
+              $posti = [];
+              if (isset($_POST['fila']) && isset($_POST['numero'])) {
+                  for ($i = 0; $i < count($_POST['fila']); $i++) {
+                      $fila = strtoupper(trim($_POST['fila'][$i]));
+                      $numero = intval($_POST['numero'][$i]);
 
-                    $posti[] = [
-                        'fila' => $fila,
-                        'numero' => $numero,
-                        'settore' => $settore
-                    ];
-                }
-            }
-        }
+                      if (!empty($fila) && $numero > 0) {
+                          $settore = in_array($fila, ['A', 'B', 'C']) ? 'GIU' : 'SU';
+                          $posti[] = [
+                              'fila' => $fila,
+                              'numero' => $numero,
+                              'settore' => $settore
+                          ];
+                      }
+                  }
+              }
 
-        $inseriti = [];
-        $occupati = [];
+              $inseriti = [];
+              $occupati = [];
 
-        foreach ($posti as $posto) {
-            $fila = $posto['fila'];
-            $numero = $posto['numero']; 
-            $settore = $posto['settore'];
+              foreach ($posti as $posto) {
+                  $fila = $posto['fila'];
+                  $numero = $posto['numero']; 
+                  $settore = $posto['settore'];
 
-            // Verifica se il posto è già occupato
-            $query = "SELECT * FROM posti WHERE fila = '$fila' AND num_posto = $numero AND settore = '$settore' AND disponibile = 0";
-            $result = mysqli_query($connessione, $query);
+                  $query = "SELECT * FROM posti WHERE fila = '$fila' AND num_posto = $numero AND settore = '$settore' AND disponibile = 0";
+                  $result = mysqli_query($connessione, $query);
 
-            if (mysqli_num_rows($result) > 0) {
-                $occupati[] = $posto;
-            } else {
-                // Inserisce il posto
-                $insert = "INSERT INTO posti (fila, num_posto, settore, disponibile) VALUES ('$fila', $numero, '$settore', 0)";
-                if (mysqli_query($connessione, $insert)) {
-                    $inseriti[] = $posto;
-                }
-            }
-        }
+                  if (mysqli_num_rows($result) > 0) {
+                      $occupati[] = $posto;
+                  } else {
+                      $insert = "INSERT INTO posti (fila, num_posto, settore, disponibile) VALUES ('$fila', $numero, '$settore', 0)";
+                      if (mysqli_query($connessione, $insert)) {
+                          $inseriti[] = $posto;
+
+                          $insert_storico = "INSERT INTO biglietti (id_utente, fila, num_posto, settore) VALUES ('$id_utenti', '$fila', $numero, '$settore')";
+                          mysqli_query($connessione, $insert_storico);
+                      }
+                  }
+              }
+
         ?>
 
     <div class="position-relative container text-white">
@@ -128,7 +134,7 @@
         <br>  
         <br>
         <br>
-        <a href="../index.html"><button class="btn btn-success" >HOME</button> </a> 
+        <a href="../index.php"><button class="btn btn-success" >HOME</button> </a> 
         </div>
        
     </div>

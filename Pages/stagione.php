@@ -145,7 +145,7 @@
           </div>
 
           <?php if ($competizione === 'Serie A'): ?>
-          <!-- Colonna destra: classifica + marcatori solo per Serie A -->
+          <!-- Colonna destra: classifica Serie A -->
           <div class="col-lg-4">
             <div class="table-responsive">
               <table class="table table-striped table-bordered table-sm bg-white text-dark">

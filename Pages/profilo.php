@@ -1,24 +1,30 @@
 <?php
-session_start();
-include("../db.php"); // connessione al DB
+  session_start();
+  include("../db.php"); // connessione al DB
 
-// Se l'utente è loggato
-if (isset($_SESSION['email'])) {
-  $email = $_SESSION['email'];
+  // Se l'utente è loggato
+  if (isset($_SESSION['email'])) {
+    $email = $_SESSION['email'];
 
-  $query = "SELECT id_utenti, cognome, nome, data_nascita, sesso, indirizzo, civico, citta, username, email, abbonato, fila, num_posto
-            FROM utenti WHERE email = ?";
-  $stmt = mysqli_prepare($connessione, $query);
-  mysqli_stmt_bind_param($stmt, "s", $email);
-  mysqli_stmt_execute($stmt);
-  $result = mysqli_stmt_get_result($stmt);
-  $utente = mysqli_fetch_assoc($result);
+    $query = "SELECT id_utenti, cognome, nome, data_nascita, sesso, indirizzo, civico, citta, username, email, abbonato, fila, num_posto
+              FROM utenti WHERE email = ?";
+    $stmt = mysqli_prepare($connessione, $query);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $utente = mysqli_fetch_assoc($result);
 
-  // Aggiungi l'id nella sessione
-  $_SESSION['id_utenti'] = $utente['id_utenti'];
-}
+    // Aggiungi l'id nella sessione
+    $_SESSION['id_utenti'] = $utente['id_utenti'];
+    
+  
+    $id_utente = $utente['id_utenti']; // recupera ID dalla sessione o dall'array utente
 
+    $query_biglietti = "SELECT * FROM biglietti WHERE id_utente = $id_utente ORDER BY id_biglietto DESC";
+    $result_biglietti = mysqli_query($connessione, $query_biglietti);
+  }
 ?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -30,7 +36,7 @@ if (isset($_SESSION['email'])) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 </head>
-<body>
+<body class="pag2">
       <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
@@ -75,55 +81,90 @@ if (isset($_SESSION['email'])) {
           </ul>
         </div>
       </nav>
+      <div class="mt-5 container text-white">
+          <?php if (isset($utente)) : ?>
+            <h2 class="text-center mb-4">Profilo Utente</h2>
+            <div class="row justify-content-center">
+              <!-- Colonna dati utente -->
+              <div class="col-md-6">
+                <div class="p-3 border rounded bg-light">
+                  <?php
+                  foreach ($utente as $chiave => $valore) {
+                      if (in_array($chiave, ['password', 'id_utenti'])) continue;
+                      if ($chiave === 'sesso') {
+                          $valore = ($valore === 'M') ? 'Uomo' : (($valore === 'F') ? 'Donna' : $valore);
+                      }
+                      if ($utente['abbonato'] == 0 && in_array($chiave, ['fila', 'num_posto'])) {
+                          continue;
+                      }
+                      echo "<p class='h5 mb-3 text-dark'><strong>" . ucfirst(str_replace("_", " ", $chiave)) . ":</strong> " . htmlspecialchars($valore ?: '—') . "</p>";
+                  }
+                  ?>
+                  <div class="text-center mt-4">
+                    <a href="../controlli/controllo_logout.php" class="btn btn-danger">Logout</a>
+                  </div>
+                </div>
+              </div>
 
-  <div class="mt-5 container">
-    <?php if (isset($utente)) : ?>
-      <h2 class="text-center mb-4">Profilo Utente</h2>
-      <div class="mx-auto p-3 " style="max-width: 600px;">
-      
-      <?php
-      foreach ($utente as $chiave => $valore) {
-          if (in_array($chiave, ['password', 'id_utenti'])) continue; // non mostrare password né id
+              <!-- Colonna storico biglietti -->
+              <div class="col-md-6">
+                <div class="p-3  ">
+                  <h4 class="text-center mb-3">Storico Biglietti</h4>
+                  <?php if (mysqli_num_rows($result_biglietti) > 0): ?>
+                    <div class="table-responsive">
+                      <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                          <tr>
+                            <th>Fila</th>
+                            <th>Numero</th>
+                            <th>Settore</th>
+                            <th>Data</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php while ($biglietto = mysqli_fetch_assoc($result_biglietti)): ?>
+                            <tr class="bg-light">
+                              <td><?= htmlspecialchars($biglietto['fila']) ?></td>
+                              <td><?= htmlspecialchars($biglietto['num_posto']) ?></td>
+                              <td><?= htmlspecialchars($biglietto['settore']) ?></td>
+                              <td><?= htmlspecialchars(date('d/m/Y H:i', strtotime($biglietto['data_acquisto']))) ?></td>
+                            </tr>
+                          <?php endwhile; ?>
+                        </tbody>
+                      </table>
+                    </div>
+                  <?php else: ?>
+                    <p>Nessun biglietto acquistato al momento.</p>
+                  <?php endif; ?>
+                </div>
+              </div>
+            </div>
 
-          if ($chiave === 'sesso') {
-              $valore = ($valore === 'M') ? 'Uomo' : (($valore === 'F') ? 'Donna' : $valore);
-          }
+          <?php else: ?>
+            <!-- Form login se non loggato -->
+            <form class="form-signin w-100 m-auto mt-5" action="../Controlli/controllo_login.php" method="POST">
+              <h1 class="h3 mb-3 fw-normal text-white">Accedi al profilo</h1>
+              <div class="form-floating">
+                <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                <label for="floatingInput" class="text-dark">Indirizzo Email</label>
+              </div>
+              <br>
+              <div class="form-floating">
+                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword" class="text-dark">Password</label>
+              </div>
+              <br>
+              <button class="btn btn-secondary w-100 py-2" type="submit">Accedi</button>
+            </form>
+          <?php endif; ?>
+    </div>
 
-          // Se non abbonato, non mostrare fila e num_posto
-          if ($utente['abbonato'] == 0 && in_array($chiave, ['fila', 'num_posto'])) {
-              continue;
-          }
 
-        echo "<p class='h5 mb-3'><strong>" . ucfirst(str_replace("_", " ", $chiave)) . ":</strong> " . htmlspecialchars($valore ?: '—') . "</p>";
-      }
-    ?>
+<br />
 
+<br />
 
-        <div class="text-center mt-4">
-          <a href="../controlli/controllo_logout.php" class="btn btn-outline-danger">Logout</a>
-        </div>
-      </div>
-
-    <?php else: ?>
-      <!-- Form login se non loggato -->
-      <form class="form-signin w-100 m-auto mt-5" action="../Controlli/controllo_login.php" method="POST">
-        <h1 class="h3 mb-3 fw-normal text-white">Accedi al profilo</h1>
-        <div class="form-floating">
-          <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-          <label for="floatingInput">Indirizzo Email</label>
-        </div>
-        <br>
-        <div class="form-floating">
-          <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-          <label for="floatingPassword">Password</label>
-        </div>
-        <br>
-        <button class="btn btn-secondary  w-100 py-2" type="submit">Accedi</button>
-      </form>
-    <?php endif; ?>
-  </div>
-
-  <!-- Script Bootstrap -->
+<br />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

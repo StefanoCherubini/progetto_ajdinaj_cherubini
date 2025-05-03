@@ -32,21 +32,6 @@
   </style>
 </head>
 <body>
-  <?php 
-    session_start();  // Avvio della sessione
-
-    include("../db.php");
-
-
-    if (!isset($_SESSION['id_utenti'])) {
-      echo '<div style="padding: 1em; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
-          L\'utente per acquistare i biglietti deve <a href="profilo.php" style="color: #721c24; text-decoration: underline;">accedere</a>.
-      </div>';
-      // Puoi anche interrompere qui il codice per evitare che venga eseguito altro
-      exit;
-    }
-  ?>
-
       <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
@@ -91,6 +76,38 @@
           </ul>
         </div>
       </nav>
+  <?php 
+    session_start();  // Avvio della sessione
+
+    include("../db.php");
+
+
+    if (!isset($_SESSION['id_utenti'])) {
+      echo '<div style="padding: 1em; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+          L\'utente per acquistare i biglietti deve <a href="profilo.php" style="color: #721c24; text-decoration: underline;">accedere</a>.
+      </div>';
+      // Puoi anche interrompere qui il codice per evitare che venga eseguito altro
+      exit;
+    }
+
+    
+    $nome = $cognome = $indirizzo = $civico = $citta = $email = "";
+    
+    if (isset($_SESSION['id_utenti'])) {
+        $id_utente = $_SESSION['id_utenti'];
+    
+        // Fai la query
+        $sql = "SELECT nome, cognome, indirizzo, civico, citta, email FROM utenti WHERE id_utenti = ?";
+        $stmt = $connessione->prepare($sql);
+        $stmt->bind_param("i", $id_utente);
+        $stmt->execute();
+        $stmt->bind_result($nome, $cognome, $indirizzo, $civico, $citta, $email);
+        $stmt->fetch();
+        $stmt->close();
+    }
+  ?>
+
+
 
 <h2 class="container">Seleziona il tuo posto nella Curva Fiesole</h2>
 <div class="svg-container" style="width: 100%; overflow: hidden;">
@@ -275,35 +292,40 @@
 <form class="row g-3" method="post" action="../Controlli/controllo_acquisti.php">
   <div class="col-md-6">
     <label for="inputname" class="form-label">Nome</label>
-    <input type="text" class="form-control" id="inputname" required>
-  </div>
+    <input type="text" class="form-control" id="inputname" name="nome" value="<?= htmlspecialchars($nome) ?>" required>
+    </div>
   <div class="col-md-6">
     <label for="inputsurname" class="form-label">Cognome</label>
-    <input type="text" class="form-control" id="inputsurname" required>
-  </div>
+    <input type="text" class="form-control" id="inputsurname" name="cognome" value="<?= htmlspecialchars($cognome) ?>" required>
+    </div>
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Email</label>
-    <input type="email" class="form-control" id="inputEmail4" required>
-  </div>
+    <br />
+    <br />
+    <input type="email" class="form-control" id="inputEmail4" name="email" value="<?= htmlspecialchars($email) ?>" required>
+    </div>
+
   <div class="col-md-6">
-    <label for="inputPassword4" class="form-label">Password</label>
-    <input type="password" class="form-control" id="inputPassword4" required>
-  </div>
+    <label for="inputPassword4" class="form-label">Password     </label>
+      <br />
+    <span style="background-color: #f8d7da; color: #721c24;">Ti chiediamo di ri-inserire la password</span>
+    <input type="password" class="form-control" id="inputPassword4" name="password" required>
+    </div>
 
   <h3>Indirizzo</h3>
 
   <div class="col-4">
     <label for="inputAddress" class="form-label">Via/Piazza</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="via del filarete"required>
-  </div>
+    <input type="text" class="form-control" id="inputAddress" name="indirizzo" value="<?= htmlspecialchars($indirizzo) ?>" required>
+    </div>
   <div class="col-4">
     <label for="inputAddress2" class="form-label">Civico/Interno</label>
-    <input type="text" class="form-control" id="inputAddress2" placeholder="5/a, interno 38"required>
-  </div>
+    <input type="text" class="form-control" id="inputAddress2" name="civico" value="<?= htmlspecialchars($civico) ?>" required>
+    </div>
   <div class="col-md-4">
     <label for="inputCity" class="form-label">Città</label>
-    <input type="text" class="form-control" id="inputCity"required>
-  </div>
+    <input type="text" class="form-control" id="inputCity" name="citta" value="<?= htmlspecialchars($citta) ?>" required>
+    </div>
 
   <h3>Posto</h3>
 
@@ -316,7 +338,7 @@
 
   <div class="col-12">
     <button type="submit" class="btn btn-success">Conferma</button>
-    <a><button class="btn btn-danger" href="./">Annulla</button></a>
+    <a><button class="btn btn-danger" href="acquisti.php">Annulla</button></a>
   </div>
  
 </form>
