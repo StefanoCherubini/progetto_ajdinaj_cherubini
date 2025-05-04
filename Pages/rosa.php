@@ -70,7 +70,7 @@
                 // Stampiamo ogni giocatore nel formato HTML richiesto
                 while($row = $result->fetch_assoc()) {
                     echo '<div class="col">
-                            <div class="card rounded card-ts h-100 " style="width: 18rem;">
+                            <div class="card card-hover rounded card-ts h-100 " style="width: 18rem;">
                                 <div class="position-relative"></div>
                                 <a href="./dettagli_giocatore.php?id='. $row['id'] .'"><img src="' . $row["link_imm"] . '" class="card-img-top rounded"></a> 
                                 <div class="card-body" id="card-body-viola">

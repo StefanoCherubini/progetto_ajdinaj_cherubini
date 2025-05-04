@@ -80,9 +80,9 @@
     <div id="carouselExampleInterval" class="carousel slide container" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="5000">
-          <a href="./News/Conf-quarti.html"><img src="https://www.acffiorentina.com/getContentAsset/6c0164e2-5738-48b6-a350-38f5947deecb/fdc2628b-8d67-425c-b6d0-a02576381c81/CLA00438.webp?language=it" class="w-100 carousel-img" alt="..."></a>
+          <a href="./News/Conf-semi.html"><img src="https://cdn.calciomercato.com/images/2025-05/ranieri.fiorentina.2024.25.esulta.betis.2100x1261.jpg" class="w-100 carousel-img" alt="..."></a>
           <div class="carousel-caption-custom">
-            <p>Vittoria nei quarti di finale di Conference League</p>
+            <p>Semifinale d'andata di Conference League</p>
           </div>
         </div>
         <div class="carousel-item " data-bs-interval="5000">
@@ -134,23 +134,24 @@
   <div class="container ">
     <div class="row ">
       <?php
-        include("./db.php"); // connessione DB
+          include("./db.php"); // connessione DB
+          
+          $sql = "
+                  SELECT 
+                    P.*,
+                    SC.nome AS nome_casa,
+                    SC.immagine AS immagine_casa,
+                    ST.nome AS nome_trasferta,
+                    ST.immagine AS immagine_trasferta
+                  FROM Partita P
+                  INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
+                  INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
+                  WHERE (SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina')
+                    AND P.risultato_finale != ''
+                  ORDER BY P.data_partita DESC
+                  LIMIT 1
+                    ";
         
-        $sql = "
-        SELECT 
-          P.*,
-          SC.nome AS nome_casa,
-          SC.immagine AS immagine_casa,
-          ST.nome AS nome_trasferta,
-          ST.immagine AS immagine_trasferta
-        FROM Partita P
-        INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
-        INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
-        WHERE SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina'
-        ORDER BY P.data_partita DESC
-        LIMIT 1
-          ";
-      
         
         $result = $connessione->query($sql);
         
@@ -179,33 +180,69 @@
             <h3 class="text-white mb-3">Ultima Partita</h3>
             <div class="card shadow-sm">
               <div class="card-body">
+              <span class="badge bg-success"><?= $competizione ?></span>
                 <div class="d-flex align-items-center justify-content-center  flex-wrap">
                   <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
-                  <span class="fw-bold fs-5"><?= $squadra_casa ?></span>
+                  <span class="fw-bold fs-5"><?= $squadra_casa ?></span> 
                   <span class="mx-2 fs-5"><?= $risultato ?></span>
                   <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
                   <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
                 </div>
                 <p class="mb-1"><?= $data ?></p>
                 <p class="mb-2">Marcatori: <?= $marcatori_testo ?></p>
-                <span class="badge bg-success"><?= $competizione ?></span>
               </div>
             </div>
           </div>
+      
+      <?php        
+          $sql = "
+                    SELECT 
+                        P.*,
+                        SC.nome AS nome_casa,
+                        SC.immagine AS immagine_casa,
+                        ST.nome AS nome_trasferta,
+                        ST.immagine AS immagine_trasferta
+                    FROM Partita P
+                    INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
+                    INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
+                    WHERE (SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina')
+                      AND P.data_partita > CURDATE()
+                      AND P.risultato_finale = ''
+                    ORDER BY P.data_partita ASC
+                    LIMIT 1
+                ";
+      
+        $result = $connessione->query($sql);
+      
+        if ($result && $row = $result->fetch_assoc()) {
+            $squadra_casa = htmlspecialchars($row["nome_casa"]);
+            $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
+            $immagine_casa = htmlspecialchars($row["immagine_casa"]);
+            $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
+            $competizione = htmlspecialchars($row["competizione"]);
+            setlocale(LC_TIME, 'it_IT.UTF-8');
+            $data = strftime("%e %B %Y", strtotime($row["data_partita"]));
+        }
+      ?>
 
           <!-- Prossima Partita -->
           <div class="col-12 col-md-6 mb-3">
-            <h3 class="text-white mb-3">Prossima Partita</h3>
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5>Lecce vs Fiorentina</h5>
-                    <p class="mb-1">Domenica 5 Maggio 2025 - Ore 18:00</p>
-                    <small class="text-muted">Stadio Via del Mare (Trasferta)</small>
-                    <div class="mt-2">
-                        <span class="badge bg-primary">Serie A - 33ª giornata</span>
-                    </div>
-                </div>
-            </div>
+              <h3 class="text-white mb-3">Prossima Partita</h3>
+              <div class="card shadow-sm">
+                  <div class="card-body">
+                  <span class="badge bg-primary"><?= $competizione ?></span>
+                      <div class="d-flex align-items-center justify-content-center flex-wrap">
+                          <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
+                          <span class="fw-bold fs-5"><?= $squadra_casa ?></span>
+                          <span class="mx-2 fs-5">vs</span>
+                          <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
+                          <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
+                      </div>
+                      <p class="mb-1"><?= $data ?></p>
+                      <div class="mt-2">
+                      </div>
+                  </div>
+              </div>
           </div>
 
     </div>

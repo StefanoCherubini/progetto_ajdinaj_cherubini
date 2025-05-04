@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fiesole News</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../CSS/style.css">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="../Images/logo.png">
+    <style>
+      .pag3 {
+        background-color: #fff;
+        font-family: 'Georgia', serif;
+        background: #f9f9f9;
+        color: #333;
+      }
+      /* Titoli e sottotitoli per l'articolo */
+      .article-title {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+      .article-section {
+        margin-bottom: 2rem;
+      }
+      .article-section h3 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 0.3rem;
+      }
+      .article-paragraph {
+        font-size: 1.2rem;
+        line-height: 1.7;
+        text-align: justify;
+      }
+      /* Stile per le immagini: senza didascalia, ma con un leggero box-shadow */
+      .img-article {
+        width: 40vh;
+        height: 25vh; 
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+      }
+    </style>
+  </head>
+  <body>
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+      <div class="container-fluid">
+        <nav class="navbar bg-body-tertiary">
+          <div class="container">
+            <a class="navbar-brand" href="../index.php">
+              <img src="../Images/logo.png" width="40" height="40" alt="Logo">
+            </a>
+          </div>
+        </nav>
+        <a class="navbar-brand" href="../index.php">FIESOLE NEWS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item fs-4">
+              <a class="nav-link active" aria-current="page" href="../index.php">Home</a>
+            </li>
+            <li class="nav-item fs-4">
+              <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
+            </li>
+            <li class="nav-item dropdown fs-4">
+              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Biglietti
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="../Pages/aquisti.php">Acquista un biglietto</a></li>
+                <li><a class="dropdown-item" href="../Pages/ricercaPosti.php">Ricerca posto</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <ul class="nav collapse navbar-collapse justify-content-end text-dark">
+          <li class="nav-item">
+            <a href="../Pages/profilo.php" class="btn btn-dark position-relative">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Articolo -->
+    <div class="container pag3">
+        <article>
+          <header class="mb-4">
+            <h1 class="article-title">I viola pareggiano la vanno in semifinale di Conference League</h1>
+            <p class="text-muted">Di Stefano Cherubini e Andrea Ajdinaj – Aggiornato all’18 Aprile 2025</p>
+          </header>
+      
+          <div class="text-center mb-4">
+            <img src="../Images/partita rit-celje.png" class="img-fluid" style="width: 180vh; height: 60vh;">
+          </div>
+      
+          <section class="article-section">
+            <h3>Fiorentina-Celje</h3>
+            <p class="article-paragraph">
+              Apre la marcature Madragora al 37' , risponde Matko 54' e Nemanic al 65' , ma riporta la qualificazione alla Fiorentina Kean al 67'.
+            </section>
+      
+          <section class="article-section">
+            <h3>Atmosfera</h3>
+            <p class="article-paragraph">
+              La serata è stata resa ancora più magica dalla presenza dei <strong>35.000 tifosi viola</strong>, che hanno colorato le tribune con sciarpe, bandiere e cori incessanti. Curioso il gesto di alcuni giocatori, che al 90° hanno lanciato la loro maglia ai tifosi in Curva.
+            </p>
+          </section>
+      
+          <section class="article-section">
+            <h3>Le Voci del Dopo Partita</h3>
+            <p class="article-paragraph">
+              <strong>Pres. Commisso </strong> nel post-partita: <em>“Non mi aspettavo la terza semifinale consecutiva ma ancora non abbiamo vinto niente, speriamo di farcela quest'anno.”</em>
+            </p>
+            <p class="article-paragraph">
+              <strong>Kean</strong>: <em>“Mi sono sentito sottovalutato, è stata la mia forza.”</em>
+            </p>
+          </section>
+      
+          <section class="article-section">
+            <h3>Galleria Fotografica</h3>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <img src="https://cdn.calciomercato.com/images/2025-04/mandragora.fiorentina.2024.25.celje.esulta.gruppo.conference.2100x1265.jpg" class="img-article img-fluid" alt="Esultanza ranieri dopo il gol">
+              </div>
+              <div class="col-md-4 mb-3">
+                <img src="https://dimages2.gazzettaobjects.it/files/image_528_298/uploads/2025/04/17/680148e9a11e0.jpeg" class="img-article img-fluid" alt="Esultanza squadra dopo rigore">
+              </div>
+              <div class="col-md-4 mb-3">
+                <img src="https://img-api.cloud.mediaset.net/api/images/kn/v2t/96818122/image_gallery/ms/1200/675?r=6" class="img-article img-fluid" >
+              </div>
+              <div class="col-md-4 mb-3">
+                <img src="https://sport.quotidiano.net/image-service/view/acePublic/alias/contentid/YzY0MTQ1OGMtZmU3NS00/1/rdhfgdt.webp" class="img-article img-fluid" alt="Panchina viola in festa">
+              </div>
+              <div class="col-md-4 mb-3">
+                <img src="https://sport.quotidiano.net/image-service/view/acePublic/alias/contentid/ZDM0MGNkZmYtNDY2YS00/1/rdhfgdt.webp" class="img-article img-fluid">
+              </div>
+              <div class="col-md-4 mb-3">
+                <img src="https://img-api.cloud.mediaset.net/api/images/cu/v2/-/0/0/aHR0cHM6Ly9pbWctcHJvZC5zcG9ydG1lZGlhc2V0Lm1lZGlhc2V0Lml0L2ltYWdlcy8yMDI1LzA0LzE3LzE3NDcwNTQ4MC0wMDc5YzQ5Yy0yNzgxLTRjOGEtYTkxZi02MTQ4NjU5Yjk2ODMuanBn?r=1" class="img-article img-fluid">
+              </div>
+            </div>
+          </section>
+        </article>
+      </div>
+           
+
+    <!-- Footer già presente in fondo alla pagina -->
+    <footer class="container-fluid justify-content-between py-3">
+      <div class="row row-cols-1 row-cols-md-3 g-4 row ">
+        <div class="col"> 
+          <ul class="social-list"> 
+            <li> <p> TERMINI E CONDIZIONI </p> </li>
+            <li> <p> PRIVACY  </p> </li>
+            <li> <p> LAVORA CON NOI  </p> </li>
+            <li> <p> PROCEDURA SPEDIZIONI </p> </li>
+            <li> <p> DIRITTI DI GARANZIA </p> </li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <div class="social-cont">    
+            <ul class="social-list text-white">
+              <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/facebook-icon.png" title="facebook" alt="Facebook icon"></a></li>
+              <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/instagram-icon.png" title="Instagram" alt="Instagram icon"></a></li>
+              <li><a target="_blank" href="#"><img src="../Images/icons8-whatsapp-50.png" title="Whatsapp" alt="Whatsapp icon" style="width: 20px; height: 20px;"></a></li>
+            </ul>
+          </div> 
+        </div>
+
+        <div class="col"> 
+          <ul class="social-list"> 
+            <li> <p> sito realizzato da </p> </li>
+            <li> <p> Stefano Cherubini , Andrea Ajdinaj © 2025 </p> </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  </body>
+</html>

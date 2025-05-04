@@ -76,6 +76,7 @@
           </ul>
         </div>
       </nav>
+
   <?php 
     session_start();  // Avvio della sessione
 
@@ -289,59 +290,59 @@
 </script>
 
 <div class="container text-start bg-body-tertiary p-5">
-<form class="row g-3" method="post" action="../Controlli/controllo_acquisti.php">
-  <div class="col-md-6">
-    <label for="inputname" class="form-label">Nome</label>
-    <input type="text" class="form-control" id="inputname" name="nome" value="<?= htmlspecialchars($nome) ?>" required>
-    </div>
-  <div class="col-md-6">
-    <label for="inputsurname" class="form-label">Cognome</label>
-    <input type="text" class="form-control" id="inputsurname" name="cognome" value="<?= htmlspecialchars($cognome) ?>" required>
-    </div>
-  <div class="col-md-6">
-    <label for="inputEmail4" class="form-label">Email</label>
-    <br />
-    <br />
-    <input type="email" class="form-control" id="inputEmail4" name="email" value="<?= htmlspecialchars($email) ?>" required>
-    </div>
-
-  <div class="col-md-6">
-    <label for="inputPassword4" class="form-label">Password     </label>
+  <form class="row g-3" method="post" action="../Controlli/controllo_acquisti.php">
+    <div class="col-md-6">
+      <label for="inputname" class="form-label">Nome</label>
+      <input type="text" class="form-control" id="inputname" name="nome" value="<?= htmlspecialchars($nome) ?>" required>
+      </div>
+    <div class="col-md-6">
+      <label for="inputsurname" class="form-label">Cognome</label>
+      <input type="text" class="form-control" id="inputsurname" name="cognome" value="<?= htmlspecialchars($cognome) ?>" required>
+      </div>
+    <div class="col-md-6">
+      <label for="inputEmail4" class="form-label">Email</label>
       <br />
-    <span style="background-color: #f8d7da; color: #721c24;">Ti chiediamo di ri-inserire la password</span>
-    <input type="password" class="form-control" id="inputPassword4" name="password" required>
+      <br />
+      <input type="email" class="form-control" id="inputEmail4" name="email" value="<?= htmlspecialchars($email) ?>" required>
+      </div>
+
+    <div class="col-md-6">
+      <label for="inputPassword4" class="form-label">Password     </label>
+        <br />
+      <span style="background-color: #f8d7da; color: #721c24;">Ti chiediamo di ri-inserire la password</span>
+      <input type="password" class="form-control" id="inputPassword4" name="password" required>
+      </div>
+
+    <h3>Indirizzo</h3>
+
+    <div class="col-4">
+      <label for="inputAddress" class="form-label">Via/Piazza</label>
+      <input type="text" class="form-control" id="inputAddress" name="indirizzo" value="<?= htmlspecialchars($indirizzo) ?>" required>
+      </div>
+    <div class="col-4">
+      <label for="inputAddress2" class="form-label">Civico/Interno</label>
+      <input type="text" class="form-control" id="inputAddress2" name="civico" value="<?= htmlspecialchars($civico) ?>" required>
+      </div>
+    <div class="col-md-4">
+      <label for="inputCity" class="form-label">Città</label>
+      <input type="text" class="form-control" id="inputCity" name="citta" value="<?= htmlspecialchars($citta) ?>" required>
+      </div>
+
+    <h3>Posto</h3>
+
+    <div id="postiSelezionati" class="row g-3"></div>
+
+    <div class="col-md-2">
+      <label for="costoBiglietto" class="form-label">Costo</label>
+      <input type="text" class="form-control" id="costoBiglietto"> 
     </div>
 
-  <h3>Indirizzo</h3>
-
-  <div class="col-4">
-    <label for="inputAddress" class="form-label">Via/Piazza</label>
-    <input type="text" class="form-control" id="inputAddress" name="indirizzo" value="<?= htmlspecialchars($indirizzo) ?>" required>
+    <div class="col-12">
+      <button type="submit" class="btn btn-success">Conferma</button>
+      <a><button class="btn btn-danger" href="acquisti.php">Annulla</button></a>
     </div>
-  <div class="col-4">
-    <label for="inputAddress2" class="form-label">Civico/Interno</label>
-    <input type="text" class="form-control" id="inputAddress2" name="civico" value="<?= htmlspecialchars($civico) ?>" required>
-    </div>
-  <div class="col-md-4">
-    <label for="inputCity" class="form-label">Città</label>
-    <input type="text" class="form-control" id="inputCity" name="citta" value="<?= htmlspecialchars($citta) ?>" required>
-    </div>
-
-  <h3>Posto</h3>
-
-  <div id="postiSelezionati" class="row g-3"></div>
-
-  <div class="col-md-2">
-    <label for="costoBiglietto" class="form-label">Costo</label>
-    <input type="text" class="form-control" id="costoBiglietto"> 
-  </div>
-
-  <div class="col-12">
-    <button type="submit" class="btn btn-success">Conferma</button>
-    <a><button class="btn btn-danger" href="acquisti.php">Annulla</button></a>
-  </div>
- 
-</form>
+  
+  </form>
 </div>
 
 <footer class="container-fluid justify-content-between  py-3" >

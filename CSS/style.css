@@ -80,7 +80,7 @@ table,td {
     font-size: 25px;
 }
 
-.card:hover{
+.card-hover:hover{
     transform: scale(1.02);
     transition: transform .2s; 
 }
