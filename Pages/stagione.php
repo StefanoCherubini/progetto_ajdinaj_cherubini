@@ -77,29 +77,36 @@
         include("../db.php");
 
         $competizione = isset($_GET['competizione']) ? $_GET['competizione'] : 'Serie A';
-
+  
         $sql = "SELECT p.data_partita,
-                      p.competizione,
-                      sc.nome AS squadra_casa,
-                      sc.immagine AS immagine_casa,
-                      st.nome AS squadra_trasferta,
-                      st.immagine AS immagine_trasferta,
-                      p.risultato_finale,
-                      p.marcatori_casa,
-                      p.marcatori_trasferta,
-                      p.calci_rigore,
-                      p.risultato_rigori
+                        p.competizione,
+                        sc.nome AS squadra_casa,
+                        sc.immagine AS immagine_casa,
+                        st.nome AS squadra_trasferta,
+                        st.immagine AS immagine_trasferta,
+                        p.risultato_finale,
+                        p.marcatori_casa,
+                        p.marcatori_trasferta,
+                        p.calci_rigore,
+                        p.risultato_rigori
                 FROM Partita p
                 JOIN squadra sc ON p.id_squadra_casa = sc.id_squadra
                 JOIN squadra st ON p.id_squadra_trasferta = st.id_squadra";
-
+  
         if (!empty($competizione)) {
-          $competizione = $connessione->real_escape_string($competizione);
-          $sql .= " WHERE p.competizione = '$competizione'";
+            $competizione = $connessione->real_escape_string($competizione);
+            $sql .= " WHERE p.competizione = '$competizione'";
         }
-
+  
+        // Limite il numero di partite
+        $sql .= " LIMIT 38";
+  
         $result = $connessione->query($sql);
-      ?>
+  
+        if (!$result) {
+            die("Errore nella query: " . $connessione->error);
+        }
+    ?>
 
       <div class="container">
         <div class="row">
@@ -166,16 +173,20 @@
                                       JOIN squadra s ON c.id_squadra = s.id_squadra
                                       ORDER BY c.punti_tot DESC";
                     $res_classifica = $connessione->query($sql_classifica);
-                    while ($row = $res_classifica->fetch_assoc()) {
-                        echo "<tr>
-                                <td>{$row['nome']}</td>
-                                <td>{$row['punti_tot']}</td>
-                                <td>{$row['partite_giocate']}</td>
-                                <td>{$row['vittorie']}</td>
-                                <td>{$row['pareggi']}</td>
-                                <td>{$row['sconfitte']}</td>
-                              </tr>";
-                    }
+                    if ($res_classifica->num_rows > 0) {
+                      while ($row = $res_classifica->fetch_assoc()) {
+                          echo "<tr>
+                                  <td>{$row['nome']}</td>
+                                  <td>{$row['punti_tot']}</td>
+                                  <td>{$row['partite_giocate']}</td>
+                                  <td>{$row['vittorie']}</td>
+                                  <td>{$row['pareggi']}</td>
+                                  <td>{$row['sconfitte']}</td>
+                                </tr>";
+                      }
+                  } else {
+                      echo "<tr><td colspan='6'>Nessun dato disponibile</td></tr>";
+                  }
                   ?>
                 </tbody>
               </table>

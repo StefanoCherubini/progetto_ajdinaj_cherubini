@@ -188,7 +188,7 @@
                   <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
                   <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
                 </div>
-                <p class="mb-1"><?= $data ?></p>
+                <p class="mb-1 text-center"><?= $data ?></p>
                 <p class="mb-2">Marcatori: <?= $marcatori_testo ?></p>
               </div>
             </div>
@@ -238,7 +238,7 @@
                           <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
                           <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
                       </div>
-                      <p class="mb-1"><?= $data ?></p>
+                      <p class="mb-1 text-center"><?= $data ?></p>
                       <div class="mt-2">
                       </div>
                   </div>
