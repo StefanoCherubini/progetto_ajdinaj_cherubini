@@ -70,13 +70,15 @@
                 // Stampiamo ogni giocatore nel formato HTML richiesto
                 while($row = $result->fetch_assoc()) {
                     echo '<div class="col">
+                          <a href="./dettagli_giocatore.php?id='. $row['id'] .'" class="text-decoration-none" style="display: block; height: 100%;">
                             <div class="card card-hover rounded card-ts h-100 " style="width: 18rem;">
                                 <div class="position-relative"></div>
-                                <a href="./dettagli_giocatore.php?id='. $row['id'] .'"><img src="' . $row["link_imm"] . '" class="card-img-top rounded"></a> 
+                                <img src="' . $row["link_imm"] . '" class="card-img-top rounded">
                                 <div class="card-body" id="card-body-viola">
                                     <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
                                 </div>
                             </div>
+                          </a> 
                         </div>';
                 }
             } else {
@@ -96,13 +98,14 @@
                 // Stampiamo ogni giocatore nel formato HTML richiesto
                 while($row = $result->fetch_assoc()) {
                     echo '<div class="col">
-                            <div class="card rounded card-ts h-100 " style="width: 18rem;">
-                                <div class="position-relative"></div>
-                                <a href="./dettagli_giocatore.php?id='. $row['id'] .'"><img src="' . $row["link_imm"] . '" class="card-img-top rounded"></a> 
-                                <div class="card-body" id="card-body-viola">
-                                    <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
-                                </div>
-                            </div>
+                            <a href="./dettagli_giocatore.php?id='. $row['id'] .'" class="text-decoration-none" style="display: block; height: 100%;">                              <div class="card rounded card-ts h-100 " style="width: 18rem;">
+                                  <div class="position-relative"></div>
+                                  <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                                  <div class="card-body" id="card-body-viola">
+                                      <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                                  </div>
+                              </div>
+                            </a>
                         </div>';
                 }
             } else {
@@ -122,13 +125,15 @@
                 // Stampiamo ogni giocatore nel formato HTML richiesto
                 while($row = $result->fetch_assoc()) {
                     echo '<div class="col">
-                            <div class="card rounded card-ts h-100 " style="width: 18rem;">
-                                <div class="position-relative"></div>
-                                <a href="./dettagli_giocatore.php?id='. $row['id'] .'"><img src="' . $row["link_imm"] . '" class="card-img-top rounded"></a> 
-                                <div class="card-body " id="card-body-viola">
-                                    <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                            <a href="./dettagli_giocatore.php?id='. $row['id'] .'" class="text-decoration-none" style="display: block; height: 100%;">
+                                <div class="card rounded card-ts h-100 " style="width: 18rem;">
+                                    <div class="position-relative"></div>
+                                    <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                                    <div class="card-body " id="card-body-viola">
+                                        <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>';
                 }
             } else {
@@ -147,13 +152,15 @@
                 // Stampiamo ogni giocatore nel formato HTML richiesto
                 while($row = $result->fetch_assoc()) {
                     echo '<div class="col">
-                            <div class="card rounded card-ts h-100 " style="width: 18rem;">
-                                <div class="position-relative"></div>
-                                <a href="./dettagli_giocatore.php?id='. $row['id'] .'"><img src="' . $row["link_imm"] . '" class="card-img-top rounded"></a> 
-                                <div class="card-body" id="card-body-viola">
-                                    <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                            <a href="./dettagli_giocatore.php?id='. $row['id'] .'" class="text-decoration-none" style="display: block; height: 100%;">
+                                <div class="card rounded card-ts h-100 " style="width: 18rem;">
+                                    <div class="position-relative"></div>
+                                    <img src="' . $row["link_imm"] . '" class="card-img-top rounded"> 
+                                    <div class="card-body" id="card-body-viola">
+                                        <h5 class="card-title text-center text-white">' . $row["nome"] . ' ' . $row["cognome"] . '</h5> 
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>';
                 }
             } else {

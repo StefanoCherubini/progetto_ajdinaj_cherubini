@@ -93,14 +93,13 @@
                 JOIN squadra sc ON p.id_squadra_casa = sc.id_squadra
                 JOIN squadra st ON p.id_squadra_trasferta = st.id_squadra";
   
-        if (!empty($competizione)) {
+          if (!empty($competizione)) {
             $competizione = $connessione->real_escape_string($competizione);
             $sql .= " WHERE p.competizione = '$competizione'";
+            if ($competizione === 'Serie A') {
+                $sql .= " LIMIT 38";
+            }
         }
-  
-        // Limite il numero di partite
-        $sql .= " LIMIT 38";
-  
         $result = $connessione->query($sql);
   
         if (!$result) {

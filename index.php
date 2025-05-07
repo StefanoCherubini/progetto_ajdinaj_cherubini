@@ -73,7 +73,6 @@
       </nav>
 
     <br /> 
-
     <!-- CAROSELLO NOVITA -->
     <h3 class="container text-start text-white" id="novita"> Novità </h3>
     <br />
@@ -110,7 +109,6 @@
     </div>
 
     <br />
-
       <!-------TOAST ------->
       <div aria-live="polite" aria-atomic="true" class="position-relative">
         <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -132,120 +130,256 @@
       </div>
 
   <div class="container ">
-    <div class="row ">
-      <?php
-          include("./db.php"); // connessione DB
-          
-          $sql = "
-                  SELECT 
-                    P.*,
-                    SC.nome AS nome_casa,
-                    SC.immagine AS immagine_casa,
-                    ST.nome AS nome_trasferta,
-                    ST.immagine AS immagine_trasferta
-                  FROM Partita P
-                  INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
-                  INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
-                  WHERE (SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina')
-                    AND P.risultato_finale != ''
-                  ORDER BY P.data_partita DESC
-                  LIMIT 1
-                    ";
-        
-        
-        $result = $connessione->query($sql);
-        
-        if ($result && $row = $result->fetch_assoc()) {
-          $squadra_casa = htmlspecialchars($row["nome_casa"]);
-          $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
-          $immagine_casa = htmlspecialchars($row["immagine_casa"]);
-          $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
-          $risultato = htmlspecialchars($row["risultato_finale"]);
-          $competizione = htmlspecialchars($row["competizione"]);
-          setlocale(LC_TIME, 'it_IT.UTF-8');
-          $data = strftime("%e %B %Y", strtotime($row["data_partita"]));
-          $marcatori_casa = nl2br(htmlspecialchars($row["marcatori_casa"]));
-          $marcatori_trasferta = nl2br(htmlspecialchars($row["marcatori_trasferta"]));
-      
-            // Componi stringa marcatori
-            $marcatori = [];
-            if (!empty($marcatori_casa)) $marcatori[] = $marcatori_casa;
-            if (!empty($marcatori_trasferta)) $marcatori[] = $marcatori_trasferta;
-            $marcatori_testo = implode(', ', $marcatori);
-        }
-      ?>
 
-      <!-- Ultima Partita -->
-          <div class="col-12 col-md-6 mb-3">
-            <h3 class="text-white mb-3">Ultima Partita</h3>
-            <div class="card shadow-sm">
-              <div class="card-body">
-              <span class="badge bg-success"><?= $competizione ?></span>
-                <div class="d-flex align-items-center justify-content-center  flex-wrap">
-                  <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
-                  <span class="fw-bold fs-5"><?= $squadra_casa ?></span> 
-                  <span class="mx-2 fs-5"><?= $risultato ?></span>
-                  <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
-                  <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
-                </div>
-                <p class="mb-1 text-center"><?= $data ?></p>
-                <p class="mb-2">Marcatori: <?= $marcatori_testo ?></p>
-              </div>
-            </div>
-          </div>
-      
-      <?php        
-          $sql = "
-                    SELECT 
+        <div class="row ">
+          <?php
+              include("./db.php");        // connessione DB
+              
+              $sql = "
+                      SELECT 
                         P.*,
                         SC.nome AS nome_casa,
                         SC.immagine AS immagine_casa,
                         ST.nome AS nome_trasferta,
                         ST.immagine AS immagine_trasferta
-                    FROM Partita P
-                    INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
-                    INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
-                    WHERE (SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina')
-                      AND P.data_partita > CURDATE()
-                      AND P.risultato_finale = ''
-                    ORDER BY P.data_partita ASC
-                    LIMIT 1
-                ";
-      
-        $result = $connessione->query($sql);
-      
-        if ($result && $row = $result->fetch_assoc()) {
-            $squadra_casa = htmlspecialchars($row["nome_casa"]);
-            $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
-            $immagine_casa = htmlspecialchars($row["immagine_casa"]);
-            $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
-            $competizione = htmlspecialchars($row["competizione"]);
-            setlocale(LC_TIME, 'it_IT.UTF-8');
-            $data = strftime("%e %B %Y", strtotime($row["data_partita"]));
-        }
-      ?>
-
-          <!-- Prossima Partita -->
-          <div class="col-12 col-md-6 mb-3">
-              <h3 class="text-white mb-3">Prossima Partita</h3>
-              <div class="card shadow-sm">
+                      FROM Partita P
+                      INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
+                      INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
+                      WHERE (SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina')
+                        AND P.risultato_finale != ''
+                      ORDER BY P.data_partita DESC
+                      LIMIT 1
+                        ";
+            
+            
+            $result = $connessione->query($sql);
+            
+            if ($result && $row = $result->fetch_assoc()) {
+              $squadra_casa = htmlspecialchars($row["nome_casa"]);
+              $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
+              $immagine_casa = htmlspecialchars($row["immagine_casa"]);
+              $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
+              $risultato = htmlspecialchars($row["risultato_finale"]);
+              $competizione = htmlspecialchars($row["competizione"]);
+              setlocale(LC_TIME, 'it_IT.UTF-8');
+              $data = strftime("%e %B %Y", strtotime($row["data_partita"]));
+              $marcatori_casa = nl2br(htmlspecialchars($row["marcatori_casa"]));
+              $marcatori_trasferta = nl2br(htmlspecialchars($row["marcatori_trasferta"]));
+          
+                // Componi stringa marcatori
+                $marcatori = [];
+                if (!empty($marcatori_casa)) $marcatori[] = $marcatori_casa;
+                if (!empty($marcatori_trasferta)) $marcatori[] = $marcatori_trasferta;
+                $marcatori_testo = implode(', ', $marcatori);
+            }
+          ?>
+          <!-- Ultima Partita -->
+              <div class="col-12 col-md-6 mb-3">
+                <h3 class="text-white mb-3">Ultima Partita</h3>
+                <div class="card shadow-sm">
                   <div class="card-body">
-                  <span class="badge bg-primary"><?= $competizione ?></span>
-                      <div class="d-flex align-items-center justify-content-center flex-wrap">
-                          <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
-                          <span class="fw-bold fs-5"><?= $squadra_casa ?></span>
-                          <span class="mx-2 fs-5">vs</span>
-                          <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
-                          <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
-                      </div>
-                      <p class="mb-1 text-center"><?= $data ?></p>
-                      <div class="mt-2">
+                  <span class="badge bg-success"><?= $competizione ?></span>
+                    <div class="d-flex align-items-center justify-content-center  flex-wrap">
+                      <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
+                      <span class="fw-bold fs-5"><?= $squadra_casa ?></span> 
+                      <span class="mx-2 fs-5"><?= $risultato ?></span>
+                      <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
+                      <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
+                    </div>
+                    <p class="mb-1 text-center"><?= $data ?></p>
+                    <p class="mb-2">Marcatori: <?= $marcatori_testo ?></p>
+                  </div>
+                </div>
+              </div>
+          
+          <?php        
+              $sql = "
+                        SELECT 
+                            P.*,
+                            SC.nome AS nome_casa,
+                            SC.immagine AS immagine_casa,
+                            ST.nome AS nome_trasferta,
+                            ST.immagine AS immagine_trasferta
+                        FROM Partita P
+                        INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
+                        INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
+                        WHERE (SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina')
+                          AND P.data_partita > CURDATE()
+                          AND P.risultato_finale = ''
+                        ORDER BY P.data_partita ASC
+                        LIMIT 1
+                    ";
+          
+            $result = $connessione->query($sql);
+          
+            if ($result && $row = $result->fetch_assoc()) {
+                $squadra_casa = htmlspecialchars($row["nome_casa"]);
+                $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
+                $immagine_casa = htmlspecialchars($row["immagine_casa"]);
+                $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
+                $competizione = htmlspecialchars($row["competizione"]);
+                setlocale(LC_TIME, 'it_IT.UTF-8');
+                $data = strftime("%e %B %Y", strtotime($row["data_partita"]));
+            }
+          ?>
+
+              <!-- Prossima Partita -->
+              <div class="col-12 col-md-6 mb-3">
+                  <h3 class="text-white mb-3">Prossima Partita</h3>
+                  <div class="card shadow-sm">
+                      <div class="card-body">
+                      <span class="badge bg-primary"><?= $competizione ?></span>
+                          <div class="d-flex align-items-center justify-content-center flex-wrap">
+                              <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
+                              <span class="fw-bold fs-5"><?= $squadra_casa ?></span>
+                              <span class="mx-2 fs-5">vs</span>
+                              <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
+                              <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
+                          </div>
+                          <p class="mb-1 text-center"><?= $data ?></p>
+                          <div class="mb-2">
+                          <br /> 
+                          </div>
                       </div>
                   </div>
               </div>
-          </div>
 
-    </div>
+        </div>
+        
+          <!-- Card News -->
+        <h2 class="my-4 text-center text-white">Ultime News</h2>
+        <div class="masonry-grid">
+
+          <!-- Card 1 -->
+          <a href="./News/Stagione.html" class="text-decoration-none text-dark">
+            <div class="news-card">
+              <img src="https://www.acffiorentina.com/getContentAsset/066e284b-7f66-4bdd-b8b8-9d7f6b8d4a54/fdc2628b-8d67-425c-b6d0-a02576381c81/acf-fiorentina-1a-squadfra-maschile-2024-25.webp?language=it" class="news-image" alt="News 1">
+              <div class="news-content">
+                <div class="news-title">Vittoria importante in Conference</div>
+                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
+                <div class="news-date">6 Maggio 2025</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 2 -->
+          <a href="./News/ViolaPark.html" class="text-decoration-none text-dark">
+            <div class="news-card">
+              <img src="https://www.acffiorentina.com/getContentAsset/1579881d-76d5-4258-8fb3-82544112881d/fdc2628b-8d67-425c-b6d0-a02576381c81/VP.webp?language=it" class="news-image" alt="News 1">
+              <div class="news-content">
+                <div class="news-title">Vittoria importante in Conference</div>
+                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
+                <div class="news-date">6 Maggio 2025</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 3 -->
+          <a href="./News/KitAbbonato.html" class="text-decoration-none text-dark">
+            <div class="news-card">
+              <img src="https://www.acffiorentina.com/getContentAsset/211ca080-f61b-42d9-a631-d54f10a8730a/fdc2628b-8d67-425c-b6d0-a02576381c81/SITO.webp?language=it" class="news-image" alt="News 1">
+              <div class="news-content">
+                <div class="news-title">Vittoria importante in Conference</div>
+                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
+                <div class="news-date">6 Maggio 2025</div>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 4 -->
+          <a href="./News/ViolaPark.html" class="text-decoration-none text-dark">
+            <div class="news-card">
+              <img src="https://source.unsplash.com/400x300/?football" class="news-image" alt="News 1">
+              <div class="news-content">
+                <div class="news-title">Vittoria importante in Conference</div>
+                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
+                <div class="news-date">6 Maggio 2025</div>
+              </div>
+            </div>
+          </a>
+
+        </div>
+
+        <div class="row">
+            <!-- Classifica 5°-9° -->
+            <div class="col-12 col-md-6 mb-3">
+              <h3 class="text-white mb-3">Classifica (5° - 9° posto)</h3>
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <?php
+                    $sql_classifica = "SELECT s.nome, s.immagine, c.punti_tot, c.partite_giocate, c.vittorie, c.pareggi, c.sconfitte
+                                      FROM classifica c
+                                      JOIN squadra s ON c.id_squadra = s.id_squadra
+                                      ORDER BY c.punti_tot DESC
+                                      LIMIT 9 OFFSET 4";
+                    $res = $connessione->query($sql_classifica);
+                    while ($row = $res->fetch_assoc()) {
+                      echo "<div class='d-flex align-items-center justify-content-between border-bottom py-2'>
+                              <div class='d-flex align-items-center'>
+                                <img src='{$row['immagine']}' alt='{$row['nome']}' width='30' height='30' class='rounded me-2'>
+                                <span class='fw-semibold'>{$row['nome']}</span>
+                              </div>
+                              <div class='text-end small'>
+                                <span class='me-2'>Pt: <strong>{$row['punti_tot']}</strong></span>
+                                <span class='me-2'>G: {$row['partite_giocate']}</span>
+                                <span class='me-2'>V: {$row['vittorie']}</span>
+                                <span class='me-2'>P: {$row['pareggi']}</span>
+                                <span>S: {$row['sconfitte']}</span>
+                              </div>
+                            </div>";
+                    }
+                  ?>
+                </div>
+              </div>
+            </div>
+
+            <!-- Marcatori -->
+            <div class="col-12 col-md-6 mb-3 table-responsive">  
+              <h3 class="text-white mb-3">Classifica Marcatori</h3>
+              <table class="table table-striped table-bordered table-sm bg-white text-dark">
+                <thead class="table-success text-center">
+                  <tr>
+                    <th></th>
+                    <th>Giocatore</th>
+                    <th>Goal</th>
+                  </tr>
+                </thead>
+                <tbody class="text-center">
+                  <tr>
+                    <td>1°</td>
+                    <td>Retegui</td>
+                    <td>24</td>
+                  </tr>
+                  <tr id="card-body-viola">
+                    <td class="text-white">2°</td>
+                    <td><a href="./dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
+                    <td class="text-white">17</td>
+                  </tr>
+                  <tr>
+                    <td>3°</td>
+                    <td>Thuram</td>
+                    <td>14</td>
+                  </tr>
+                  <tr>
+                    <td>4°</td>
+                    <td>Lookman</td>
+                    <td>13</td>
+                  </tr>
+                  <tr>
+                    <td>5°</td>
+                    <td>Lautaro</td>
+                    <td>12</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+
+              
+        
+
+        
+        
   </div>
 
 <br />
