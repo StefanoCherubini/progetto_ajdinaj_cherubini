@@ -255,9 +255,12 @@
             <div class="news-card">
               <img src="https://www.acffiorentina.com/getContentAsset/066e284b-7f66-4bdd-b8b8-9d7f6b8d4a54/fdc2628b-8d67-425c-b6d0-a02576381c81/acf-fiorentina-1a-squadfra-maschile-2024-25.webp?language=it" class="news-image" alt="News 1">
               <div class="news-content">
-                <div class="news-title">Vittoria importante in Conference</div>
-                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
-                <div class="news-date">6 Maggio 2025</div>
+                <div class="news-title">Stagione 2024/2025 </div>
+                <div class="news-text">Rivivi la stagione.
+                <br />
+                  <br />
+                </div>
+                <div class="news-date">30 Aprile 2025</div>
               </div>
             </div>
           </a>
@@ -267,9 +270,9 @@
             <div class="news-card">
               <img src="https://www.acffiorentina.com/getContentAsset/1579881d-76d5-4258-8fb3-82544112881d/fdc2628b-8d67-425c-b6d0-a02576381c81/VP.webp?language=it" class="news-image" alt="News 1">
               <div class="news-content">
-                <div class="news-title">Vittoria importante in Conference</div>
-                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
-                <div class="news-date">6 Maggio 2025</div>
+                <div class="news-title">Viola Park</div>
+                <div class="news-text">Informazioni sul viola park. Allenamenti, partite ed Eventi.</div>
+                <div class="news-date">11 Aprile 2025</div>
               </div>
             </div>
           </a>
@@ -279,20 +282,20 @@
             <div class="news-card">
               <img src="https://www.acffiorentina.com/getContentAsset/211ca080-f61b-42d9-a631-d54f10a8730a/fdc2628b-8d67-425c-b6d0-a02576381c81/SITO.webp?language=it" class="news-image" alt="News 1">
               <div class="news-content">
-                <div class="news-title">Vittoria importante in Conference</div>
-                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
-                <div class="news-date">6 Maggio 2025</div>
+                <div class="news-title">Kit dell'abbonato</div>
+                <div class="news-text">Scopri il Kit dell'abbonato della stagione 2024/2025.</div>
+                <div class="news-date">11 Aprile 2025</div>
               </div>
             </div>
           </a>
 
           <!-- Card 4 -->
-          <a href="./News/ViolaPark.html" class="text-decoration-none text-dark">
+          <a href="./News/maglie.html" class="text-decoration-none text-dark">
             <div class="news-card">
-              <img src="https://source.unsplash.com/400x300/?football" class="news-image" alt="News 1">
+              <img src="https://www.ansa.it/webimages/news_base/2025/1/31/66f507d38a8f52d49d390b049642c047.jpg" class="news-image" alt="News 1">
               <div class="news-content">
-                <div class="news-title">Vittoria importante in Conference</div>
-                <div class="news-text">La Fiorentina trionfa con un netto 3-0 in casa, portandosi in vetta al girone.</div>
+                <div class="news-title">Abbigliamento ufficiale</div>
+                <div class="news-text">Scopri tutte le maglie della stagione 2024/2025</div>
                 <div class="news-date">6 Maggio 2025</div>
               </div>
             </div>
@@ -306,29 +309,44 @@
               <h3 class="text-white mb-3">Classifica (5° - 9° posto)</h3>
               <div class="card shadow-sm">
                 <div class="card-body">
-                  <?php
-                    $sql_classifica = "SELECT s.nome, s.immagine, c.punti_tot, c.partite_giocate, c.vittorie, c.pareggi, c.sconfitte
-                                      FROM classifica c
-                                      JOIN squadra s ON c.id_squadra = s.id_squadra
-                                      ORDER BY c.punti_tot DESC
-                                      LIMIT 9 OFFSET 4";
-                    $res = $connessione->query($sql_classifica);
-                    while ($row = $res->fetch_assoc()) {
-                      echo "<div class='d-flex align-items-center justify-content-between border-bottom py-2'>
-                              <div class='d-flex align-items-center'>
-                                <img src='{$row['immagine']}' alt='{$row['nome']}' width='30' height='30' class='rounded me-2'>
-                                <span class='fw-semibold'>{$row['nome']}</span>
-                              </div>
-                              <div class='text-end small'>
-                                <span class='me-2'>Pt: <strong>{$row['punti_tot']}</strong></span>
-                                <span class='me-2'>G: {$row['partite_giocate']}</span>
-                                <span class='me-2'>V: {$row['vittorie']}</span>
-                                <span class='me-2'>P: {$row['pareggi']}</span>
-                                <span>S: {$row['sconfitte']}</span>
-                              </div>
-                            </div>";
-                    }
-                  ?>
+                   <table class="table table-striped table-bordered table-sm bg-white text-dark">
+                    <thead class="table-primary text-center">
+                      <tr>
+                        <th></th>
+                        <th>Squadra</th>
+                        <th>Pt</th>
+                        <th>G</th>
+                        <th>V</th>
+                        <th>P</th>
+                        <th>S</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-center">
+                      <?php
+                        $sql_classifica = "SELECT s.nome, s.immagine, c.punti_tot, c.partite_giocate, c.vittorie, c.pareggi, c.sconfitte
+                                          FROM classifica c
+                                          JOIN squadra s ON c.id_squadra = s.id_squadra
+                                          ORDER BY c.punti_tot DESC
+                                          LIMIT 5 OFFSET 4";
+                        $res_classifica = $connessione->query($sql_classifica);
+                        if ($res_classifica->num_rows > 0) {
+                          while ($row = $res_classifica->fetch_assoc()) {
+                              echo "<tr>
+                                      <td><img src='{$row['immagine']}' alt='{$row['nome']}' width='30' height='30' class='rounded me-2'></td>
+                                      <td>{$row['nome']}</td>
+                                      <td>{$row['punti_tot']}</td>
+                                      <td>{$row['partite_giocate']}</td>
+                                      <td>{$row['vittorie']}</td>
+                                      <td>{$row['pareggi']}</td>
+                                      <td>{$row['sconfitte']}</td>
+                                    </tr>";
+                          }
+                      } else {
+                          echo "<tr><td colspan='6'>Nessun dato disponibile</td></tr>";
+                      }
+                      ?>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
@@ -352,7 +370,7 @@
                   </tr>
                   <tr id="card-body-viola">
                     <td class="text-white">2°</td>
-                    <td><a href="./dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
+                    <td><a href="./Pages/dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
                     <td class="text-white">17</td>
                   </tr>
                   <tr>

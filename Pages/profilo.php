@@ -142,6 +142,7 @@
 
           <?php else: ?>
             <!-- Form login se non loggato -->
+            <br />
             <form class="form-signin w-100 m-auto mt-5" action="../Controlli/controllo_login.php" method="POST">
               <h1 class="h3 mb-3 fw-normal text-white">Accedi al profilo</h1>
               <div class="form-floating">
@@ -154,8 +155,10 @@
                 <label for="floatingPassword" class="text-dark">Password</label>
               </div>
               <br>
+              <p>Se non hai un account, <a href="./registrazione.php">registrati</a></p>
               <button class="btn btn-secondary w-100 py-2" type="submit">Accedi</button>
             </form>
+              
           <?php endif; ?>
     </div>
 
