@@ -1,46 +1,3 @@
-<?php
-session_start();
-include("../db.php"); // connessione al DB
-
-// Gestione della registrazione
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
-    // Recupera i dati dal form di registrazione
-    $nome = mysqli_real_escape_string($connessione, $_POST['nome']);
-    $cognome = mysqli_real_escape_string($connessione, $_POST['cognome']);
-    $email = mysqli_real_escape_string($connessione, $_POST['email']);
-    $password = mysqli_real_escape_string($connessione, $_POST['password']);
-    $sesso = mysqli_real_escape_string($connessione, $_POST['sesso']);
-    $data_nascita = mysqli_real_escape_string($connessione, $_POST['data_nascita']);
-    
-    // Verifica se l'email è già registrata
-    $query_check_email = "SELECT * FROM utenti WHERE email = ?";
-    $stmt_check = mysqli_prepare($connessione, $query_check_email);
-    mysqli_stmt_bind_param($stmt_check, "s", $email);
-    mysqli_stmt_execute($stmt_check);
-    $result_check = mysqli_stmt_get_result($stmt_check);
-
-    if (mysqli_num_rows($result_check) > 0) {
-        $error_message = "L'email è già in uso. Scegli un'altra email.";
-    } else {
-        // Hash della password
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-
-        // Inserimento dei dati nel database
-        $query_register = "INSERT INTO utenti (nome, cognome, email, password, sesso, data_nascita) 
-                           VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt_register = mysqli_prepare($connessione, $query_register);
-        mysqli_stmt_bind_param($stmt_register, "ssssss", $nome, $cognome, $email, $password_hash, $sesso, $data_nascita);
-        if (mysqli_stmt_execute($stmt_register)) {
-            // Redirect alla pagina di login dopo la registrazione
-            header("Location: ./login.php");
-            exit();
-        } else {
-            $error_message = "Errore durante la registrazione. Riprova più tardi.";
-        }
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -96,48 +53,110 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
           </ul>
         </div>
     </nav>
+    
+      <?php if (isset($_GET['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($_GET['error']) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
-    <div class="container mt-5 text-white">
-        <h2 class="text-center mb-4">Registrazione Utente</h2>
+      <?php if (isset($_GET['okk'])): ?>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              Registrazione avvenuta con successo!
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+      <?php endif; ?>
+    <br />
+      <div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+        <div class="p-4" style="width: 100%; max-width: 500px;">
+            <h2 class="text-center text-white mb-4">Registrazione Utente</h2>
 
-        <?php if (isset($error_message)) : ?>
-            <div class="alert alert-danger" role="alert">
-                <?= htmlspecialchars($error_message) ?>
-            </div>
-        <?php endif; ?>
+            <form action="../Controlli/controllo_registrazione.php" method="POST">
+              <div class="form-floating mb-3">
+                  <input type="text" name="nome" class="form-control" id="floatingNome" placeholder="Nome" required>
+                  <label for="floatingNome">Nome</label>
+              </div>
 
-        <form action="registrazione.php" method="POST" class="form-signin">
-            <div class="form-floating">
-                <input type="text" name="nome" class="form-control" id="floatingNome" placeholder="Nome" required>
-                <label for="floatingNome" class="text-dark">Nome</label>
-            </div>
-            <div class="form-floating">
-                <input type="text" name="cognome" class="form-control" id="floatingCognome" placeholder="Cognome" required>
-                <label for="floatingCognome" class="text-dark">Cognome</label>
-            </div>
-            <div class="form-floating">
-                <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="Email" required>
-                <label for="floatingEmail" class="text-dark">Email</label>
-            </div>
-            <div class="form-floating">
-                <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
-                <label for="floatingPassword" class="text-dark">Password</label>
-            </div>
-            <div class="form-floating">
-                <input type="date" name="data_nascita" class="form-control" id="floatingData" placeholder="Data di Nascita" required>
-                <label for="floatingData" class="text-dark">Data di Nascita</label>
-            </div>
-            <div class="form-floating">
-                <select name="sesso" class="form-control" id="floatingSesso" required>
-                    <option value="M">Maschio</option>
-                    <option value="F">Femmina</option>
-                </select>
-                <label for="floatingSesso" class="text-dark">Sesso</label>
-            </div>
-            <button class="btn btn-primary w-100 py-2 mt-3" type="submit" name="register">Registrati</button>
-        </form>
-        <p class="mt-3">Hai già un account? <a href="./login.php">Accedi</a></p>
+              <div class="form-floating mb-3">
+                  <input type="text" name="cognome" class="form-control" id="floatingCognome" placeholder="Cognome" required>
+                  <label for="floatingCognome">Cognome</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <input type="date" name="data_nascita" class="form-control" id="floatingData" required>
+                  <label for="floatingData">Data di Nascita</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <select name="sesso" class="form-select" id="floatingSesso" required>
+                      <option value="">Seleziona</option>
+                      <option value="M">Maschio</option>
+                      <option value="F">Femmina</option>
+                      <option value="Altro">Altro</option>
+                  </select>
+                  <label for="floatingSesso">Sesso</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <input type="text" name="indirizzo" class="form-control" id="floatingIndirizzo" placeholder="Via..." required>
+                  <label for="floatingIndirizzo">Indirizzo</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <input type="text" name="civico" class="form-control" id="floatingCivico" placeholder="Civico" required>
+                  <label for="floatingCivico">Civico</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <input type="text" name="citta" class="form-control" id="floatingCitta" placeholder="Città" required>
+                  <label for="floatingCitta">Città</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username" required>
+                  <label for="floatingUsername">Username</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="Email" required>
+                  <label for="floatingEmail">Email</label>
+              </div>
+
+              <div class="form-floating mb-3">
+                  <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                  <label for="floatingPassword">Password</label>
+              </div>
+
+              <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" name="abbonato" id="checkAbbonato" value="1">
+                  <label class="form-check-label text-white" for="checkAbbonato">
+                      Sono un abbonato
+                  </label>
+              </div>
+
+              <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                      <div class="form-floating">
+                          <input type="text" name="fila" class="form-control" id="floatingFila" placeholder="Fila" maxlength="1">
+                          <label for="floatingFila">Fila (opzionale)</label>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-floating">
+                          <input type="number" name="num_posto" class="form-control" id="floatingPosto" placeholder="Numero Posto">
+                          <label for="floatingPosto">Numero Posto (opzionale)</label>
+                      </div>
+                  </div>
+              </div>
+
+              <button class="btn btn-primary w-100 mb-3" type="submit" name="register">Registrati</button>
+              <p class="text-center text-white">Hai già un account? <a href="./login.php">Accedi</a></p>
+          </form>
+
+        </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
