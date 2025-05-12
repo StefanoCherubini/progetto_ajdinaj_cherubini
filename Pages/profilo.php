@@ -58,6 +58,12 @@
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
               </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./stagione.php">Stagione</a>
+              </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./rosa.php">Rosa</a>
+              </li>
               <li class="nav-item dropdown fs-4">
                 <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Biglietti
@@ -90,15 +96,38 @@
                 <div class="p-3 border rounded bg-light">
                   <?php
                   foreach ($utente as $chiave => $valore) {
-                      if (in_array($chiave, ['password', 'id_utenti'])) continue;
-                      if ($chiave === 'sesso') {
-                          $valore = ($valore === 'M') ? 'Uomo' : (($valore === 'F') ? 'Donna' : $valore);
-                      }
-                      if ($utente['abbonato'] == 0 && in_array($chiave, ['fila', 'num_posto'])) {
-                          continue;
-                      }
-                      echo "<p class='h5 mb-3 text-dark'><strong>" . ucfirst(str_replace("_", " ", $chiave)) . ":</strong> " . htmlspecialchars($valore ?: '—') . "</p>";
-                  }
+                    // Ignora 'password' e 'id_utenti'
+                    if (in_array($chiave, ['password', 'id_utenti'])) continue;
+                
+                    // Gestione del campo 'sesso'
+                    if ($chiave === 'sesso') {
+                        $valore = ($valore === 'M') ? 'Uomo' : (($valore === 'F') ? 'Donna' : $valore);
+                    }
+                
+                    // Se abbonato è uguale a 1, aggiungi l'emoji accanto al valore di 'abbonato'
+                    if ($chiave === 'abbonato' && $utente['abbonato'] == 1) {
+                        $valore = $valore . ' ⭐💜'; // Aggiunge la stella e il cuore viola accanto al valore
+                    }
+                
+                    // Se l'utente non è abbonato, e la chiave è 'fila' o 'num_posto', gestisci questi valori
+                    if ($utente['abbonato'] == 0 && in_array($chiave, ['fila', 'num_posto'])) {
+                        $valore = ($valore === 0) ? 'Non abbonato, occasionale' : $valore;
+                    }
+                
+                    // Per le chiavi 'fila' e 'num_posto' se abbonato, non aggiungere emoji, mostra solo i valori reali
+                    elseif ($utente['abbonato'] == 1 && in_array($chiave, ['fila', 'num_posto'])) {
+                        // Mantieni il valore reale, ad esempio "Fila D" o "Posto 1"
+                        // Non fare nulla al valore, basta che esca come è
+                    }
+                
+                    // Gestione delle stelle e cuori per altri valori se abbonato
+                    else {
+                        $valore = ($valore === 1) ? '⭐💜' : $valore;
+                    }
+                
+                    // Visualizza il risultato
+                    echo "<p class='h5 mb-3 text-dark'><strong>" . ucfirst(str_replace("_", " ", $chiave)) . ":</strong> " . htmlspecialchars($valore ?: '—') . "</p>";
+                }
                   ?>
                   <div class="text-center mt-4">
                     <a href="../controlli/controllo_logout.php" class="btn btn-danger">Logout</a>

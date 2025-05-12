@@ -31,6 +31,12 @@
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="./News/primaPagina.html">News</a>
               </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./Pages/stagione.php">Stagione</a>
+              </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./Pages/rosa.php">Rosa</a>
+              </li>
               <li class="nav-item dropdown fs-4">
                 <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Biglietti
@@ -63,7 +69,7 @@
               <a class="nav-link text-dark fs-7 " href="#novita">Novità</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-dark fs-7 " href="./Pages/stagione.php">Stagione</a>
+              <a class="nav-link text-dark fs-7 " href="#ultimePartite">Ultime partite</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-dark fs-7 " href="./Pages/rosa.php">Rosa</a>
@@ -174,8 +180,8 @@
             }
           ?>
           <!-- Ultima Partita -->
-              <div class="col-12 col-md-6 mb-3">
-                <h3 class="text-white mb-3">Ultima Partita</h3>
+              <div class="col-12 col-md-6 mb-3" >
+                <h3 class="text-white mb-3" id="ultimePartite">Ultima Partita</h3>
                 <div class="card shadow-sm">
                   <div class="card-body">
                   <span class="badge bg-success"><?= $competizione ?></span>

@@ -10,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="../Images/logo.png">
   </head>
 <body> 
-      <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+<nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
@@ -30,6 +30,12 @@
               </li>
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
+              </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./stagione.php">Stagione</a>
+              </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./rosa.php">Rosa</a>
               </li>
               <li class="nav-item dropdown fs-4">
                 <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -157,6 +163,7 @@
               <table class="table table-striped table-bordered table-sm bg-white text-dark">
                 <thead class="table-primary text-center">
                   <tr>
+                    <th></th>
                     <th>Squadra</th>
                     <th>Pt</th>
                     <th>G</th>
@@ -167,7 +174,7 @@
                 </thead>
                 <tbody class="text-center">
                   <?php
-                    $sql_classifica = "SELECT s.nome, c.punti_tot, c.partite_giocate, c.vittorie, c.pareggi, c.sconfitte
+                    $sql_classifica = "SELECT s.immagine ,s.nome, c.punti_tot, c.partite_giocate, c.vittorie, c.pareggi, c.sconfitte
                                       FROM classifica c
                                       JOIN squadra s ON c.id_squadra = s.id_squadra
                                       ORDER BY c.punti_tot DESC";
@@ -175,6 +182,7 @@
                     if ($res_classifica->num_rows > 0) {
                       while ($row = $res_classifica->fetch_assoc()) {
                           echo "<tr>
+                                  <td><img src='{$row['immagine']}' alt='{$row['nome']}' width='30' height='30' class='rounded me-2'></td>
                                   <td>{$row['nome']}</td>
                                   <td>{$row['punti_tot']}</td>
                                   <td>{$row['partite_giocate']}</td>

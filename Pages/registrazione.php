@@ -9,7 +9,7 @@
   <link rel="icon" type="image/x-icon" href="../Images/logo.png">
 </head>
 <body class="pag2">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
+<nav class="navbar navbar-expand-lg bg-body-tertiary p-3">
         <div class="container-fluid">
             <nav class="navbar bg-body-tertiary">
                 <div class="container">
@@ -29,6 +29,12 @@
               </li>
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
+              </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./stagione.php">Stagione</a>
+              </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./rosa.php">Rosa</a>
               </li>
               <li class="nav-item dropdown fs-4">
                 <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,7 +58,7 @@
           </li>
           </ul>
         </div>
-    </nav>
+      </nav>
     
       <?php if (isset($_GET['error'])): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -151,7 +157,7 @@
               </div>
 
               <button class="btn btn-primary w-100 mb-3" type="submit" name="register">Registrati</button>
-              <p class="text-center text-white">Hai già un account? <a href="./login.php">Accedi</a></p>
+              <p class="text-center text-white">Hai già un account? <a href="./profilo.php">Accedi</a></p>
           </form>
 
         </div>

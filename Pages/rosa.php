@@ -33,6 +33,12 @@
               <li class="nav-item  fs-4">
                 <a class="nav-link active" aria-current="page" href="../News/primaPagina.html">News</a>
               </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./stagione.php">Stagione</a>
+              </li>
+              <li class="nav-item  fs-4">
+                <a class="nav-link active" aria-current="page" href="./rosa.php">Rosa</a>
+              </li>
               <li class="nav-item dropdown fs-4">
                 <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Biglietti
