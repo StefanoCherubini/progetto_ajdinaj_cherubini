@@ -42,7 +42,7 @@
                   Biglietti
                 </a>
                 <ul class="dropdown-menu ">
-                  <li><a class="dropdown-item" href="./aquisti.php">Acquista un biglietto</a></li>
+                  <li><a class="dropdown-item" href="./acquisti.php">Acquista un biglietto</a></li>
                   <li><a class="dropdown-item" href="./ricercaPosti.php">Ricerca posto</a></li>
                 </ul>
               </li>
@@ -217,23 +217,23 @@
                   </tr>
                   <tr id="card-body-viola">
                     <td class="text-white">2°</td>
-                    <td><a href="./dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
+                    <td><a href="./Pages/dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
                     <td class="text-white">17</td>
                   </tr>
                   <tr>
                     <td>3°</td>
+                    <td>Lookman</td>
+                    <td>15</td>
+                  </tr>
+                  <tr>
+                    <td>4°</td>
                     <td>Thuram</td>
                     <td>14</td>
                   </tr>
                   <tr>
-                    <td>4°</td>
-                    <td>Lookman</td>
-                    <td>13</td>
-                  </tr>
-                  <tr>
                     <td>5°</td>
-                    <td>Lautaro</td>
-                    <td>12</td>
+                    <td>Orsolini</td>
+                    <td>13</td>
                   </tr>
                 </tbody>
               </table>

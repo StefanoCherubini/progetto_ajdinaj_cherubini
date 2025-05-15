@@ -81,64 +81,88 @@
         <div class="container my-5">
 
 <?php
-  echo '
-  <div class="row gy-4 align-items-center">
-    <!-- IMMAGINE GIOCATORE -->
-    <div class="col-md-4 text-center">
-      <div class="rounded card-ts h-100 border-0 shadow-sm rounded-4" style="width: 18rem">
-        <img src="' . $row["link_imm"] . '" class="card-img-top rounded-4" alt="' . $row["nome"] . ' ' . $row["cognome"] . '">
-      </div>
-    </div>
+$bandiere = [
+  "Italia" => "italia.webp",
+  "Francia" => "francia.webp",
+  "Brasile" => "brasile.png",
+  "Argentina" => "argentina.png",
+  "Spagna" => "spagna.png",
+  "Germania" => "germania.webp",
+  "Croazia" => "croazia.png",
+  "Marocco" => "marocco.webp",
+  "Islanda" => "islanda.png",
+];
 
-    <!-- INFO PRINCIPALI -->
-    <div class="col-md-8">
-      <h1 class="fw-bold text-purple mb-3">
-        <span class="me-2" style="font-size: 2rem; color: purple;">#' . $row["numero_maglia"] . '</span> 
-        ' . $row["nome"] . ' ' . $row["cognome"] . '
-      </h1>
+setlocale(LC_TIME, 'it_IT.UTF-8');
 
-      <div class="row row-cols-2 row-cols-md-3 g-3">
-        <div><strong>Nazionalità:</strong><br>' . $row["nazionalita"] . '</div>
-        <div><strong>Data di nascita:</strong><br>' . $row["data_nascita"] . '</div>
-        <div><strong>Piede preferito:</strong><br>' . $row["piede_preferito"] . '</div>
-        <div><strong>Altezza:</strong><br>' . $row["altezza_cm"] . ' cm</div>
-        <div><strong>Peso:</strong><br>' . $row["peso_kg"] . ' kg</div>
-        <div><strong>Ruolo:</strong><br>' . $row["ruolo"] . '</div>
-        <div><strong>Valore di mercato:</strong><br>' . $row["valore_di_mercato"] . ' mil. di €</div>
-        <div><strong>Scadenza contratto:</strong><br>' . $row["data_scadenza_contratto"] . '</div>
-      </div>
+$nazionalita = $row["nazionalita"];
+$img_bandiera = isset($bandiere[$nazionalita]) 
+  ? '<img src="../Images/Bandiere/' . $bandiere[$nazionalita] . '" alt="' . $nazionalita . '" style="width: 30px; height: 22px; margin-left: 5px;">' 
+  : '';
+
+$data_nascita = ucfirst(strftime("%e %B %Y", strtotime($row["data_nascita"])));
+$data_scadenza = ucfirst(strftime("%e %B %Y", strtotime($row["data_scadenza_contratto"])));
+
+echo '
+<div class="row gy-4 align-items-center">
+  <!-- IMMAGINE GIOCATORE -->
+  <div class="col-md-4 text-center">
+    <div class="rounded card-ts h-100 border-0 shadow-sm rounded-4" style="width: 18rem">
+      <img src="' . $row["link_imm"] . '" class="card-img-top rounded-4" alt="' . $row["nome"] . ' ' . $row["cognome"] . '">
     </div>
   </div>
 
-  <!-- STATISTICHE -->
-  <div class="mt-5">
-    <h3 class="text-purple">Statistiche stagione</h3>
-    <div class="table-responsive">
-      <table class="table table-bordered align-middle text-center mt-3 shadow-sm">
-        <thead class="table-light">
-          <tr>
-            <th>Partite</th>
-            <th>Minuti</th>
-            <th>Gol</th>
-            <th>Assist</th>
-            <th>Gialli</th>
-            <th>Rossi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>' . $row["partite_giocate"] . '</td>
-            <td>' . $row["minuti_giocati"] . '</td>
-            <td>' . $row["gol"] . '</td>
-            <td>' . $row["assist"] . '</td>
-            <td>' . $row["cartellini_gialli"] . '</td>
-            <td>' . $row["cartellini_rossi"] . '</td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- INFO PRINCIPALI -->
+  <div class="col-md-8">
+    <h1 class="fw-bold text-purple mb-3">
+      <span class="me-2" style="font-size: 2.5rem; color: purple;">#' . $row["numero_maglia"] . '</span> 
+      ' . $row["nome"] . ' ' . $row["cognome"] . '
+    </h1>
+
+    <div class="row row-cols-2 row-cols-md-3 g-3" style="font-size: 1.1rem">
+      <div><strong>Nazionalità:</strong><br>' . $nazionalita .  $img_bandiera . '</div>
+      <div><strong>Data di nascita:</strong><br>' . $data_nascita . '</div>
+      <div><strong>Piede preferito:</strong><br>' . $row["piede_preferito"] . '</div>
+      <div><strong>Altezza:</strong><br>' . $row["altezza_cm"] . ' cm</div>
+      <div><strong>Peso:</strong><br>' . $row["peso_kg"] . ' kg</div>
+      <div><strong>Ruolo:</strong><br>' . $row["ruolo"] . '</div>
+      <div><strong>Valore di mercato:</strong><br>' . $row["valore_di_mercato"] . ' mil. di €</div>
+      <div><strong>Scadenza contratto:</strong><br>' . $data_scadenza . '</div>
     </div>
-  </div>';
+  </div>
+</div>
+
+<!-- STATISTICHE -->
+<div class="mt-5">
+  <h3 class="text-purple">Statistiche stagione</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle text-center mt-3 shadow-sm">
+      <thead class="table-light">
+        <tr>
+          <th>Partite</th>
+          <th>Minuti</th>
+          <th>Gol</th>
+          <th>Assist</th>
+          <th>Gialli</th>
+          <th>Rossi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>' . $row["partite_giocate"] . '</td>
+          <td>' . $row["minuti_giocati"] . '</td>
+          <td>' . $row["gol"] . '</td>
+          <td>' . $row["assist"] . '</td>
+          <td>' . $row["cartellini_gialli"] . '</td>
+          <td>' . $row["cartellini_rossi"] . '</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>';
 ?>
+
+
 </div>
 <br>
 <br>

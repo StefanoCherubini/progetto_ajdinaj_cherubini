@@ -107,7 +107,70 @@
 
 
 
-<h2 class="container">Seleziona il tuo posto nella Curva Fiesole</h2>
+<h2 class="container">Seleziona il tuo posto in Curva</h2>
+
+<p class="container">
+  I posti contrassegnati in <span class="text-success fw-bold">verde</span> sono disponibili, mentre quelli in 
+  <span class="text-danger fw-bold">rosso</span> risultano già occupati da altri tifosi.
+  È possibile acquistare un massimo di <span class="fw-bold">3</span> biglietti per utente.
+  Prima di procedere con l’acquisto, ti ricordiamo che è necessario inserire la password associata all’indirizzo email dell’account.
+  I biglietti possono essere intestati a un nominativo diverso da quello utilizzato al momento della registrazione.
+  Verrà comunque richiesto un solo nome e cognome, valido per tutti i biglietti acquistati.
+</p>
+
+        <?php   
+              include("../db.php");    
+              $sql = "
+                        SELECT 
+                            P.*,
+                            SC.nome AS nome_casa,
+                            SC.immagine AS immagine_casa,
+                            ST.nome AS nome_trasferta,
+                            ST.immagine AS immagine_trasferta
+                        FROM Partita P
+                        INNER JOIN squadra SC ON P.id_squadra_casa = SC.id_squadra
+                        INNER JOIN squadra ST ON P.id_squadra_trasferta = ST.id_squadra
+                        WHERE (SC.nome = 'Fiorentina' OR ST.nome = 'Fiorentina')
+                          AND P.data_partita > CURDATE()
+                          AND P.risultato_finale = ''
+                        ORDER BY P.data_partita ASC
+                        LIMIT 1
+                    ";
+          
+            $result = $connessione->query($sql);
+          
+            if ($result && $row = $result->fetch_assoc()) {
+                $squadra_casa = htmlspecialchars($row["nome_casa"]);
+                $squadra_trasferta = htmlspecialchars($row["nome_trasferta"]);
+                $immagine_casa = htmlspecialchars($row["immagine_casa"]);
+                $immagine_trasferta = htmlspecialchars($row["immagine_trasferta"]);
+                $competizione = htmlspecialchars($row["competizione"]);
+                setlocale(LC_TIME, 'it_IT.UTF-8');
+                $data = strftime("%e %B %Y", strtotime($row["data_partita"]));
+            }
+          ?>
+
+            <div class="col-12 col-md-6 mb-3 container">
+                  <h3 class="text-white mb-3">Prossima Partita</h3>
+                  <div class="card shadow-sm">
+                      <div class="card-body">
+                      <span class="badge bg-primary"><?= $competizione ?></span>
+                          <div class="d-flex align-items-center justify-content-center flex-wrap">
+                              <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="42" height="42" class="me-2 rounded">
+                              <span class="fw-bold fs-5"><?= $squadra_casa ?></span>
+                              <span class="mx-2 fs-5">vs</span>
+                              <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
+                              <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="42" height="42" class="ms-2 rounded">
+                          </div>
+                          <p class="mb-1 text-center"><?= $data ?></p>
+                          <div class="mb-2">
+                          <br /> 
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+
 <div class="svg-container" style="width: 100%; overflow: hidden;">
   <svg id="svgArea" viewBox="0 0 950 400" style="width: 100%; height: auto;"></svg>
 </div>
@@ -300,7 +363,7 @@
       <label for="inputEmail4" class="form-label">Email</label>
       <br />
       <br />
-      <input type="email" class="form-control" id="inputEmail4" name="email" value="<?= htmlspecialchars($email) ?>" required>
+      <input type="email" class="form-control" id="inputEmail4" name="email" value="<?= htmlspecialchars($email) ?>" readonly>
       </div>
 
     <div class="col-md-6">
@@ -331,12 +394,12 @@
 
     <div class="col-md-2">
       <label for="costoBiglietto" class="form-label">Costo</label>
-      <input type="text" class="form-control" id="costoBiglietto"> 
+      <input type="text" class="form-control" id="costoBiglietto" readonly> 
     </div>
 
     <div class="col-12">
       <button type="submit" class="btn btn-success">Conferma</button>
-      <a><button class="btn btn-danger" href="acquisti.php">Annulla</button></a>
+      <a href="acquisti.php" class="btn btn-danger">Annulla</a>
     </div>
   
   </form>

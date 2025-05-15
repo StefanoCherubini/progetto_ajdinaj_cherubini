@@ -5,7 +5,7 @@
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // Usa i prepared statement per sicurezza (eviti SQL injection)
+        // prepared per sicurezza (evitare SQL injection)
         $stmt = $connessione->prepare("SELECT * FROM utenti WHERE email = ? AND password = ?");
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();

@@ -42,7 +42,7 @@
                   Biglietti
                 </a>
                 <ul class="dropdown-menu ">
-                  <li><a class="dropdown-item" href="./Pages/aquisti.php">Acquista un biglietto</a></li>
+                  <li><a class="dropdown-item" href="./Pages/acquisti.php">Acquista un biglietto</a></li>
                   <li><a class="dropdown-item" href="./Pages/ricercaPosti.php">Ricerca posto</a></li>
                 </ul>
               </li>
@@ -71,9 +71,6 @@
             <li class="nav-item">
               <a class="nav-link text-dark fs-7 " href="#ultimePartite">Ultime partite</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link text-dark fs-7 " href="./Pages/rosa.php">Rosa</a>
-            </li>
           </ul>
         </div>
       </nav>
@@ -85,9 +82,9 @@
     <div id="carouselExampleInterval" class="carousel slide container" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="5000">
-          <a href="./News/Conf-semi.html"><img src="https://cdn.calciomercato.com/images/2025-05/ranieri.fiorentina.2024.25.esulta.betis.2100x1261.jpg" class="w-100 carousel-img" alt="..."></a>
+              <a href="./News/Conf-semi2.html"><img src="https://imgresizer.eurosport.com/unsafe/2400x1260/filters:format(jpeg):focal(1242x335:1244x333)/origin-imgresizer.eurosport.com/2025/05/08/image-e77bfb7a-e92b-4ef7-ac96-43634b9fc8f0-85-2560-1440.jpeg" class="w-100 carousel-img" alt="..."></a>
           <div class="carousel-caption-custom">
-            <p>Semifinale d'andata di Conference League</p>
+            <p>Semifinale di ritorno di Conference League</p>
           </div>
         </div>
         <div class="carousel-item " data-bs-interval="5000">
@@ -184,16 +181,16 @@
                 <h3 class="text-white mb-3" id="ultimePartite">Ultima Partita</h3>
                 <div class="card shadow-sm">
                   <div class="card-body">
-                  <span class="badge bg-success"><?= $competizione ?></span>
+                  <span class="badge bg-primary"><?= $competizione ?></span>
                     <div class="d-flex align-items-center justify-content-center  flex-wrap">
-                      <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
+                      <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="42" height="42" class="me-2 rounded">
                       <span class="fw-bold fs-5"><?= $squadra_casa ?></span> 
                       <span class="mx-2 fs-5"><?= $risultato ?></span>
                       <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
-                      <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
+                      <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="42" height="42" class="ms-2 rounded">
                     </div>
                     <p class="mb-1 text-center"><?= $data ?></p>
-                    <p class="mb-2">Marcatori: <?= $marcatori_testo ?></p>
+                    <p class="mb-2"> <span class="fw-bold"> Marcatori:</span> <?= $marcatori_testo ?></p>
                   </div>
                 </div>
               </div>
@@ -236,11 +233,11 @@
                       <div class="card-body">
                       <span class="badge bg-primary"><?= $competizione ?></span>
                           <div class="d-flex align-items-center justify-content-center flex-wrap">
-                              <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="40" height="40" class="me-2 rounded">
+                              <img src="<?= $immagine_casa ?>" alt="<?= $squadra_casa ?>" width="42" height="42" class="me-2 rounded">
                               <span class="fw-bold fs-5"><?= $squadra_casa ?></span>
                               <span class="mx-2 fs-5">vs</span>
                               <span class="fw-bold fs-5"><?= $squadra_trasferta ?></span>
-                              <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="40" height="40" class="ms-2 rounded">
+                              <img src="<?= $immagine_trasferta ?>" alt="<?= $squadra_trasferta ?>" width="42" height="42" class="ms-2 rounded">
                           </div>
                           <p class="mb-1 text-center"><?= $data ?></p>
                           <div class="mb-2">
@@ -338,7 +335,7 @@
                         if ($res_classifica->num_rows > 0) {
                           while ($row = $res_classifica->fetch_assoc()) {
                               echo "<tr>
-                                      <td><img src='{$row['immagine']}' alt='{$row['nome']}' width='30' height='30' class='rounded me-2'></td>
+                                      <td><img src='{$row['immagine']}' alt='{$row['nome']}' width='35' height='35' class='rounded me-2'></td>
                                       <td>{$row['nome']}</td>
                                       <td>{$row['punti_tot']}</td>
                                       <td>{$row['partite_giocate']}</td>
@@ -381,29 +378,23 @@
                   </tr>
                   <tr>
                     <td>3°</td>
+                    <td>Lookman</td>
+                    <td>15</td>
+                  </tr>
+                  <tr>
+                    <td>4°</td>
                     <td>Thuram</td>
                     <td>14</td>
                   </tr>
                   <tr>
-                    <td>4°</td>
-                    <td>Lookman</td>
-                    <td>13</td>
-                  </tr>
-                  <tr>
                     <td>5°</td>
-                    <td>Lautaro</td>
-                    <td>12</td>
+                    <td>Orsolini</td>
+                    <td>13</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-        </div>
-
-              
-        
-
-        
-        
+        </div>       
   </div>
 
 <br />

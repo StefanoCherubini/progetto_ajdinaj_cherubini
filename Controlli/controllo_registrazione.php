@@ -3,7 +3,6 @@ session_start();
 include("../db.php");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
-    // Pulizia e raccolta dati
     $nome = trim($_POST['nome']);
     $cognome = trim($_POST['cognome']);
     $email = trim($_POST['email']);
