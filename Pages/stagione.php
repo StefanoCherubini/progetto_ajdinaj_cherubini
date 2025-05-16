@@ -217,7 +217,7 @@
                   </tr>
                   <tr id="card-body-viola">
                     <td class="text-white">2°</td>
-                    <td><a href="./Pages/dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
+                    <td><a href="./dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
                     <td class="text-white">17</td>
                   </tr>
                   <tr>

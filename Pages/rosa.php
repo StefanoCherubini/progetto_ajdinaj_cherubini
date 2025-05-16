@@ -199,15 +199,15 @@
           <ul class="social-list">
           <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/facebook-icon.png"  title="facebook" alt="Facebook icon"></a></li>
           <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/instagram-icon.png" title="Instagram" alt="Instagram icon"></a></li>
-          <li><a target="_blank" href="#"><img src="https://www.chefstudio.it/img/pinterest-icon.png" title="pinterest" alt="Instagram icon"></a></li>
+          <li><a target="_blank" href="#"><img src="../Images/icons8-whatsapp-50.png" title="Whatsapp" alt="Whatsapp icon" style="width: 20px; height: 20px; "></a></li>
           </ul>
         </div> 
       </div>
 
-        <div class="col"> 
+      <div class="col"> 
           <ul class="social-list"> 
             <li> <p> sito realizzato da </p> </li>
-            <li> <p> Stefano Cherubini © 2023 </p> </li>
+            <li> <p> Stefano Cherubini , Andrea Ajdinaj © 2025 </p> </li>
           </ul>
         </div>
 	</footer>
