@@ -369,12 +369,12 @@
                   <tr>
                     <td>1°</td>
                     <td>Retegui</td>
-                    <td>24</td>
+                    <td>25</td>
                   </tr>
                   <tr id="card-body-viola">
                     <td class="text-white">2°</td>
                     <td><a href="./Pages/dettagli_giocatore.php?id=24" class="text-white">Kean</a></td>
-                    <td class="text-white">17</td>
+                    <td class="text-white">18</td>
                   </tr>
                   <tr>
                     <td>3°</td>
@@ -389,7 +389,7 @@
                   <tr>
                     <td>5°</td>
                     <td>Orsolini</td>
-                    <td>13</td>
+                    <td>14</td>
                   </tr>
                 </tbody>
               </table>

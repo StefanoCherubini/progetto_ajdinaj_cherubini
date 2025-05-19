@@ -73,7 +73,7 @@ if ($errore_password === null) {
             }
         }
     }
-} // End of password check
+} 
 ?>
 
 <!DOCTYPE html>

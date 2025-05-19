@@ -94,13 +94,10 @@
         $id_utente = $_SESSION['id_utenti'];
     
         // Fai la query
-        $sql = "SELECT nome, cognome, indirizzo, civico, citta, email FROM utenti WHERE id_utenti = ?";
-        $stmt = $connessione->prepare($sql);
-        $stmt->bind_param("i", $id_utente);
-        $stmt->execute();
-        $stmt->bind_result($nome, $cognome, $indirizzo, $civico, $citta, $email);
-        $stmt->fetch();
-        $stmt->close();
+      $sql = "SELECT nome, cognome, indirizzo, civico, citta, email FROM utenti WHERE id_utenti = $id_utente";
+      $result = $connessione->query($sql);
+      $utente = $result->fetch_assoc();
+
     }
   ?>
 
@@ -233,7 +230,7 @@
     circle.setAttribute("r", 4);
     circle.setAttribute("data-fila", fila);
     circle.setAttribute("data-numero", num);
-    circle.setAttribute("data-costo", 15);
+    circle.setAttribute("data-costo", 15);      //costo biglietti
 
     if (disponibile) {
       circle.classList.add("posto", "libero");
@@ -352,17 +349,17 @@
   <form class="row g-3" method="post" action="../Controlli/controllo_acquisti.php">
     <div class="col-md-6">
       <label for="inputname" class="form-label">Nome</label>
-      <input type="text" class="form-control" id="inputname" name="nome" value="<?= htmlspecialchars($nome) ?>" required>
+      <input type="text" class="form-control" id="inputname" name="nome" value="<?= $utente['nome'] ?>" required>
       </div>
     <div class="col-md-6">
       <label for="inputsurname" class="form-label">Cognome</label>
-      <input type="text" class="form-control" id="inputsurname" name="cognome" value="<?= htmlspecialchars($cognome) ?>" required>
+      <input type="text" class="form-control" id="inputsurname" name="cognome" value="<?= $utente['cognome'] ?>" required>
       </div>
     <div class="col-md-6">
       <label for="inputEmail4" class="form-label">Email</label>
       <br />
       <br />
-      <input type="email" class="form-control" id="inputEmail4" name="email" value="<?= htmlspecialchars($email) ?>" readonly>
+      <input type="email" class="form-control" id="inputEmail4" name="email" value="<?= $utente['email'] ?>" readonly>
       </div>
 
     <div class="col-md-6">
@@ -376,15 +373,15 @@
 
     <div class="col-4">
       <label for="inputAddress" class="form-label">Via/Piazza</label>
-      <input type="text" class="form-control" id="inputAddress" name="indirizzo" value="<?= htmlspecialchars($indirizzo) ?>" required>
+      <input type="text" class="form-control" id="inputAddress" name="indirizzo" value="<?= $utente['indirizzo'] ?>" required>
       </div>
     <div class="col-4">
       <label for="inputAddress2" class="form-label">Civico/Interno</label>
-      <input type="text" class="form-control" id="inputAddress2" name="civico" value="<?= htmlspecialchars($civico) ?>" required>
+      <input type="text" class="form-control" id="inputAddress2" name="civico" value="<?= $utente['civico'] ?>" required>
       </div>
     <div class="col-md-4">
       <label for="inputCity" class="form-label">Città</label>
-      <input type="text" class="form-control" id="inputCity" name="citta" value="<?= htmlspecialchars($citta) ?>" required>
+      <input type="text" class="form-control" id="inputCity" name="citta" value="<?= $utente['citta'] ?>" required>
       </div>
 
     <h3>Posto</h3>
