@@ -71,6 +71,9 @@
             <li class="nav-item">
               <a class="nav-link text-dark fs-7 " href="#ultimePartite">Ultime partite</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark fs-7 " href="#classifiche">Classifiche</a>
+            </li>
           </ul>
         </div>
       </nav>
@@ -308,7 +311,7 @@
 
         <div class="row">
             <!-- Classifica 5°-9° -->
-            <div class="col-12 col-md-6 mb-3">
+            <div class="col-12 col-md-6 mb-3" id="classifiche">
               <h3 class="text-white mb-3">Classifica (5° - 9° posto)</h3>
               <div class="card shadow-sm">
                 <div class="card-body">

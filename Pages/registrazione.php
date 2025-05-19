@@ -144,17 +144,19 @@
               <div class="row g-3 mb-3">
                   <div class="col-md-6">
                       <div class="form-floating">
-                          <input type="text" name="fila" class="form-control" id="floatingFila" placeholder="Fila" maxlength="1">
-                          <label for="floatingFila">Fila (opzionale)</label>
+                          <input type="text" name="fila" class="form-control" id="floatingFila" placeholder="Fila" maxlength="1" min="A" max="M">
+                          <label for="floatingFila">Fila (opzionale, A-M)</label>
                       </div>
                   </div>
                   <div class="col-md-6">
                       <div class="form-floating">
-                          <input type="number" name="num_posto" class="form-control" id="floatingPosto" placeholder="Numero Posto">
-                          <label for="floatingPosto">Numero Posto (opzionale)</label>
+                          <input type="number" name="num_posto" class="form-control" id="floatingPosto" placeholder="Numero Posto" min="0" max="70">
+                          <label for="floatingPosto" >Numero Posto (opzionale 1-35 da A a C, 1-70 D a M)</label>
                       </div>
                   </div>
               </div>
+
+
 
               <button class="btn btn-primary w-100 mb-3" type="submit" name="register">Registrati</button>
               <p class="text-center text-white">Hai già un account? <a href="./profilo.php">Accedi</a></p>
